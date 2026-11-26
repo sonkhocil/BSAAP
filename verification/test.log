@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Debug/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.ForensicLog.Tests -> /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll
+Test run for /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.2 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    36, Skipped:     0, Total:    36, Duration: 287 ms - Bsaap.ForensicLog.Tests.dll (net9.0)
+VSTEST_ARTIFACTS_DIRECTORY environment variable was not found, falling back to a user-private temporary directory. This is most likely caused by an outdated Microsoft.NET.Test.Sdk package reference in the test project.
