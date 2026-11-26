@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Release/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.ForensicLog.Tests -> /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Release/net9.0/Bsaap.ForensicLog.Tests.dll
+  Bsaap.Simulation.Contracts -> /workspace/BSAAP/src/Bsaap.Simulation.Contracts/bin/Release/net9.0/Bsaap.Simulation.Contracts.dll
+  Bsaap.Simulation -> /workspace/BSAAP/src/Bsaap.Simulation/bin/Release/net9.0/Bsaap.Simulation.dll
+  Bsaap.Baselines -> /workspace/BSAAP/src/Bsaap.Baselines/bin/Release/net9.0/Bsaap.Baselines.dll
+  Bsaap.FunctionalComparison -> /workspace/BSAAP/tools/Bsaap.FunctionalComparison/bin/Release/net9.0/Bsaap.FunctionalComparison.dll
+  Bsaap.ControlledPilot -> /workspace/BSAAP/tools/Bsaap.ControlledPilot/bin/Release/net9.0/Bsaap.ControlledPilot.dll
+  Bsaap.Simulation.Tests -> /workspace/BSAAP/tests/Bsaap.Simulation.Tests/bin/Release/net9.0/Bsaap.Simulation.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.53

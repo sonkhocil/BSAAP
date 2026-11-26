@@ -93,3 +93,26 @@ An input manifest example is `verification/gate3d/pilot/input-001.json`.
 Replaying verifies compressed bytes, exact signed-archive digest, workload,
 protocol/acquisition configuration and delivery-override digest. Replay compares
 all functional outcomes and scores. Elapsed samples are expected to differ.
+
+For exact replay while keeping the artifact branch available, build a detached
+worktree at the recorded implementation SHA and pass the artifact path from
+the current checkout.
+
+```sh
+artifact_root="$(pwd)/verification/gate3d/pilot"
+pilot_source_sha=e96bb0e89f310b610efadd11d835cf286bd3d26a
+git worktree add --detach /tmp/bsaap-gate3d-source "$pilot_source_sha"
+cd /tmp/bsaap-gate3d-source
+dotnet build -c Release --no-incremental \
+  -p:SourceRevisionId="$pilot_source_sha" \
+  -p:IncludeSourceRevisionInInformationalVersion=true
+dotnet test -c Release --no-build
+dotnet run -c Release --no-build --project tools/Bsaap.ControlledPilot -- \
+  --replay "$artifact_root/input-001.json"
+```
+
+Independent accounting checks run from the artifact checkout with
+`python3 verification/gate3d/analyze_results.py`. A locally available pilot
+binary's fingerprint is reported separately. Rebuilt binaries on other SDKs
+or source paths can differ, so byte-identical binary reproduction is not
+claimed. Functional signed-input replay and source provenance remain required.

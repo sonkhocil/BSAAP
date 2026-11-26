@@ -1,0 +1,479 @@
+{
+  "SchemaVersion": "BSAAP-PILOT-INPUT/2",
+  "Definition": {
+    "Workload": {
+      "Seed": 2027,
+      "Scenario": "gate3d-controlled-pilot",
+      "TransactionCount": 250,
+      "Corridors": [
+        "SYN-A-B"
+      ],
+      "StartTime": 100000,
+      "TransactionSpacing": 40000,
+      "EventSpacing": 10000,
+      "Faults": []
+    },
+    "Protocol": {
+      "Clock": {
+        "EpochSeconds": 1800000000
+      },
+      "Obligations": [
+        {
+          "Id": "obligation",
+          "EventOrdinal": 0,
+          "IssuerGateway": "B",
+          "PublishedAt": {
+            "Milliseconds": 90000
+          },
+          "Deadline": {
+            "Milliseconds": 150000
+          },
+          "TargetAckAt": {
+            "Milliseconds": 95000
+          },
+          "AckAvailableAt": {
+            "Milliseconds": 95000
+          }
+        }
+      ],
+      "Challenges": [
+        {
+          "Id": "challenge",
+          "ObligationId": "obligation",
+          "IssuedAt": {
+            "Milliseconds": 10110000
+          },
+          "ExpiresAt": {
+            "Milliseconds": 10170000
+          }
+        }
+      ],
+      "Checkpoints": [
+        {
+          "Id": "head",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "fork",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "alternate",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "peer",
+          "Gateway": "B",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": null,
+          "ClaimedTimestamp": null
+        }
+      ],
+      "Witnesses": [
+        {
+          "Id": "witness",
+          "CheckpointId": "head",
+          "ObservedAt": {
+            "Milliseconds": 10130000
+          },
+          "AvailableAt": {
+            "Milliseconds": 10130000
+          }
+        }
+      ]
+    },
+    "Acquisition": {
+      "Budget": {
+        "MaximumRequests": 5,
+        "MaximumArtifactsPerRequest": 6
+      },
+      "Observers": [
+        {
+          "Observer": "reviewer",
+          "OwnGateway": "A",
+          "Cutoff": {
+            "Milliseconds": 10160000
+          },
+          "Requests": [
+            {
+              "Id": "a",
+              "Target": "A",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10120000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "b",
+              "Target": "B",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10120000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "w",
+              "Target": "W",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10130000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "aud",
+              "Target": "AUDITOR",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10110000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "retained",
+              "Target": "W",
+              "Channel": "WitnessCheckpointRetrieval",
+              "SentAt": {
+                "Milliseconds": 10140000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            }
+          ]
+        }
+      ],
+      "Disclosure": [
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "obligation",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "aud",
+          "ArtifactId": "challenge",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "obligation/ack",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "w",
+          "ArtifactId": "witness",
+          "DeliveryDelayMilliseconds": 0
+        }
+      ],
+      "AuditedEventOrdinals": [
+        0,
+        1
+      ]
+    },
+    "TruthHorizon": {
+      "Milliseconds": 10170000
+    },
+    "VerificationTime": {
+      "Milliseconds": 11160000
+    },
+    "Condition": "InvalidWitness"
+  },
+  "Manifest": {
+    "SchemaVersion": "BSAAP-EVIDENCE/1",
+    "Workload": {
+      "SchemaVersion": "BSAAP-EXPERIMENT/1",
+      "GeneratorVersion": "sha256-counter-v1",
+      "SourceCommitSha": "e96bb0e89f310b610efadd11d835cf286bd3d26a",
+      "FrozenGate2CommitSha": "ac1b997f3732483ae8d6df60774458111703f0eb",
+      "Seed": 2027,
+      "Scenario": "gate3d-controlled-pilot",
+      "Runtime": {
+        "Framework": ".NET 9.0.23",
+        "OperatingSystem": "Debian GNU/Linux 13 (trixie)",
+        "Architecture": "X64"
+      },
+      "Configuration": {
+        "Seed": 2027,
+        "Scenario": "gate3d-controlled-pilot",
+        "TransactionCount": 250,
+        "Corridors": [
+          "SYN-A-B"
+        ],
+        "StartTime": 100000,
+        "TransactionSpacing": 40000,
+        "EventSpacing": 10000,
+        "Faults": []
+      },
+      "ConfigurationSha256": "f138c5e3b86ee7343f98a57a46f8dd23de58c33f8408f107783e688e43f1806a"
+    },
+    "Protocol": {
+      "Clock": {
+        "EpochSeconds": 1800000000
+      },
+      "Obligations": [
+        {
+          "Id": "obligation",
+          "EventOrdinal": 0,
+          "IssuerGateway": "B",
+          "PublishedAt": {
+            "Milliseconds": 90000
+          },
+          "Deadline": {
+            "Milliseconds": 150000
+          },
+          "TargetAckAt": {
+            "Milliseconds": 95000
+          },
+          "AckAvailableAt": {
+            "Milliseconds": 95000
+          }
+        }
+      ],
+      "Challenges": [
+        {
+          "Id": "challenge",
+          "ObligationId": "obligation",
+          "IssuedAt": {
+            "Milliseconds": 10110000
+          },
+          "ExpiresAt": {
+            "Milliseconds": 10170000
+          }
+        }
+      ],
+      "Checkpoints": [
+        {
+          "Id": "head",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "fork",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "alternate",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "peer",
+          "Gateway": "B",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 10120000
+          },
+          "ChallengeId": null,
+          "ClaimedTimestamp": null
+        }
+      ],
+      "Witnesses": [
+        {
+          "Id": "witness",
+          "CheckpointId": "head",
+          "ObservedAt": {
+            "Milliseconds": 10130000
+          },
+          "AvailableAt": {
+            "Milliseconds": 10130000
+          }
+        }
+      ]
+    },
+    "Acquisition": {
+      "Budget": {
+        "MaximumRequests": 5,
+        "MaximumArtifactsPerRequest": 6
+      },
+      "Observers": [
+        {
+          "Observer": "reviewer",
+          "OwnGateway": "A",
+          "Cutoff": {
+            "Milliseconds": 10160000
+          },
+          "Requests": [
+            {
+              "Id": "a",
+              "Target": "A",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10120000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "b",
+              "Target": "B",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10120000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "w",
+              "Target": "W",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10130000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "aud",
+              "Target": "AUDITOR",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 10110000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            },
+            {
+              "Id": "retained",
+              "Target": "W",
+              "Channel": "WitnessCheckpointRetrieval",
+              "SentAt": {
+                "Milliseconds": 10140000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 10160000
+              }
+            }
+          ]
+        }
+      ],
+      "Disclosure": [
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "obligation",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "aud",
+          "ArtifactId": "challenge",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "obligation/ack",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "w",
+          "ArtifactId": "witness",
+          "DeliveryDelayMilliseconds": 0
+        }
+      ],
+      "AuditedEventOrdinals": [
+        0,
+        1
+      ]
+    },
+    "ArchiveSha256": "14b3db628a45e19c6f1e8281d6bd58aa8dd1fe4bcc90184307eaa3a8506a9453",
+    "ConfigurationSha256": "de37c0cc063861670486e4f66a548c42260767710f86391166d70be00002bac5"
+  },
+  "ArchiveRelativePath": "archives/14b3db628a45e19c6f1e8281d6bd58aa8dd1fe4bcc90184307eaa3a8506a9453.json.gz",
+  "ArchiveFileSha256": "3f9078ef02658b2e62c58b6ad0134f2140f8cc2b0c80e26ca5a30e9475220df4",
+  "DeliveredBodyOverrides": {
+    "witness": "{\u0022WitnessId\u0022:\u0022W\u0022,\u0022GatewayId\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022EpochId\u0022:1,\u0022TreeSize\u0022:1000,\u0022CheckpointRootHash\u0022:\u0022VbVgJD0so/ecZioGjy3JGLVJQ22Ej4v6V2r5khiupVw=\u0022,\u0022CheckpointSignatureHash\u0022:\u0022GYPbYp8X0cVzGLyuHsR\u002BnkCdL0UaAiQebrZ5czpHjTQ=\u0022,\u0022WitnessObservedTime\u0022:1800010130,\u0022Signature\u0022:\u0022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\u0022,\u0022CheckpointDigest\u0022:\u0022GiIuMou1C3PIdw4Gfqk/ng7tNlvdykUKapZuTp8XKl4=\u0022}"
+  },
+  "OverridesSha256": "9b23c9324772469adfe58025e8412d2505861f480b33f924c585742646147578"
+}

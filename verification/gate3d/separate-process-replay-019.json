@@ -1,0 +1,890 @@
+{
+  "Seed": 2027,
+  "Transactions": 250,
+  "Condition": "Clean",
+  "WorkloadSha256": "f4dee0b2aed3a0064a457622e43d880de0a824670e0d506ae9a7b8c09326b436",
+  "ProtocolArchiveSha256": "14b3db628a45e19c6f1e8281d6bd58aa8dd1fe4bcc90184307eaa3a8506a9453",
+  "ReplayEquivalent": true,
+  "Baselines": [
+    {
+      "Baseline": "B0",
+      "PublicQueries": 3,
+      "DeliveredArtifacts": 8,
+      "CommonAcquisitionGatewayRoots": 1,
+      "ExposedWitnessAttestations": 0,
+      "ProjectedInputBytes": 422621,
+      "Predictions": [
+        {
+          "QueryId": "omission/468cfeca-f11f-98a9-e25a-d1c05cf9150f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is observable in unsigned records.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "omission/9979565c-b9f8-8e43-e6bf-57d908df1b4f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is observable in unsigned records.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "equivocation/SYN-A-B/A/1",
+          "Outcome": "Inconclusive",
+          "Reason": "Unsigned records cannot establish signed-log equivocation.",
+          "VerificationVerdict": null
+        }
+      ],
+      "Score": {
+        "Omission": {
+          "ActualPositives": 0,
+          "ActualNegatives": 2,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 0,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 2,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        },
+        "Equivocation": {
+          "ActualPositives": 0,
+          "ActualNegatives": 1,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 0,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        }
+      },
+      "EvidenceAvailability": {
+        "OmissionQueries": 2,
+        "EquivocationQueries": 1,
+        "AdmissibleOmissionCases": 0,
+        "AdmissibleEquivocationCases": 0
+      },
+      "Samples": [
+        {
+          "Repetition": 0,
+          "Order": 0,
+          "Cost": {
+            "MonotonicTicks": 1706548,
+            "Elapsed": {
+              "Value": "00:00:00.0017065"
+            },
+            "ManagedAllocatedBytes": 887256,
+            "WorkingSetBeforeBytes": 123645952,
+            "WorkingSetAfterBytes": 123645952,
+            "ProcessPeakWorkingSetBytes": 123645952,
+            "ManagedHeapAfterBytes": 64361792,
+            "Gen0Collections": 0,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 1706548,
+          "Elapsed": {
+            "Value": "00:00:00.0017065"
+          }
+        },
+        {
+          "Repetition": 1,
+          "Order": 4,
+          "Cost": {
+            "MonotonicTicks": 2313803,
+            "Elapsed": {
+              "Value": "00:00:00.0023138"
+            },
+            "ManagedAllocatedBytes": 886776,
+            "WorkingSetBeforeBytes": 130756608,
+            "WorkingSetAfterBytes": 130756608,
+            "ProcessPeakWorkingSetBytes": 130756608,
+            "ManagedHeapAfterBytes": 73772624,
+            "Gen0Collections": 0,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 2313803,
+          "Elapsed": {
+            "Value": "00:00:00.0023138"
+          }
+        }
+      ],
+      "ScoringCost": {
+        "MonotonicTicks": 16833156,
+        "Elapsed": {
+          "Value": "00:00:00.0168331"
+        },
+        "ManagedAllocatedBytes": 4722304,
+        "WorkingSetBeforeBytes": 134131712,
+        "WorkingSetAfterBytes": 134332416,
+        "ProcessPeakWorkingSetBytes": 144764928,
+        "ManagedHeapAfterBytes": 52361312,
+        "Gen0Collections": 0,
+        "Gen1Collections": 0,
+        "Gen2Collections": 0
+      }
+    },
+    {
+      "Baseline": "B1",
+      "PublicQueries": 3,
+      "DeliveredArtifacts": 8,
+      "CommonAcquisitionGatewayRoots": 1,
+      "ExposedWitnessAttestations": 0,
+      "ProjectedInputBytes": 1046632,
+      "Predictions": [
+        {
+          "QueryId": "omission/468cfeca-f11f-98a9-e25a-d1c05cf9150f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "omission/9979565c-b9f8-8e43-e6bf-57d908df1b4f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "equivocation/SYN-A-B/A/1",
+          "Outcome": "Inconclusive",
+          "Reason": "No acquired authenticated checkpoint conflict.",
+          "VerificationVerdict": null
+        }
+      ],
+      "Score": {
+        "Omission": {
+          "ActualPositives": 0,
+          "ActualNegatives": 2,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 0,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 2,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        },
+        "Equivocation": {
+          "ActualPositives": 0,
+          "ActualNegatives": 1,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 0,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        }
+      },
+      "EvidenceAvailability": {
+        "OmissionQueries": 2,
+        "EquivocationQueries": 1,
+        "AdmissibleOmissionCases": 0,
+        "AdmissibleEquivocationCases": 0
+      },
+      "Samples": [
+        {
+          "Repetition": 0,
+          "Order": 1,
+          "Cost": {
+            "MonotonicTicks": 355099923,
+            "Elapsed": {
+              "Value": "00:00:00.3550999"
+            },
+            "ManagedAllocatedBytes": 13809400,
+            "WorkingSetBeforeBytes": 123654144,
+            "WorkingSetAfterBytes": 128376832,
+            "ProcessPeakWorkingSetBytes": 128376832,
+            "ManagedHeapAfterBytes": 78239184,
+            "Gen0Collections": 0,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 355099923,
+          "Elapsed": {
+            "Value": "00:00:00.3550999"
+          }
+        },
+        {
+          "Repetition": 1,
+          "Order": 0,
+          "Cost": {
+            "MonotonicTicks": 298170106,
+            "Elapsed": {
+              "Value": "00:00:00.2981701"
+            },
+            "ManagedAllocatedBytes": 13810560,
+            "WorkingSetBeforeBytes": 130465792,
+            "WorkingSetAfterBytes": 130498560,
+            "ProcessPeakWorkingSetBytes": 130498560,
+            "ManagedHeapAfterBytes": 74416664,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 298170106,
+          "Elapsed": {
+            "Value": "00:00:00.2981701"
+          }
+        }
+      ],
+      "ScoringCost": {
+        "MonotonicTicks": 8962469,
+        "Elapsed": {
+          "Value": "00:00:00.0089624"
+        },
+        "ManagedAllocatedBytes": 4728760,
+        "WorkingSetBeforeBytes": 134647808,
+        "WorkingSetAfterBytes": 134651904,
+        "ProcessPeakWorkingSetBytes": 144764928,
+        "ManagedHeapAfterBytes": 63460120,
+        "Gen0Collections": 0,
+        "Gen1Collections": 0,
+        "Gen2Collections": 0
+      }
+    },
+    {
+      "Baseline": "B1W",
+      "PublicQueries": 3,
+      "DeliveredArtifacts": 8,
+      "CommonAcquisitionGatewayRoots": 1,
+      "ExposedWitnessAttestations": 1,
+      "ProjectedInputBytes": 1047361,
+      "Predictions": [
+        {
+          "QueryId": "omission/468cfeca-f11f-98a9-e25a-d1c05cf9150f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence. Independent observation is bound to an acquired head.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "omission/9979565c-b9f8-8e43-e6bf-57d908df1b4f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence. Independent observation is bound to an acquired head.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "equivocation/SYN-A-B/A/1",
+          "Outcome": "Inconclusive",
+          "Reason": "No acquired authenticated checkpoint conflict. Independent observation is bound to an acquired head.",
+          "VerificationVerdict": null
+        }
+      ],
+      "Score": {
+        "Omission": {
+          "ActualPositives": 0,
+          "ActualNegatives": 2,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 0,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 2,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        },
+        "Equivocation": {
+          "ActualPositives": 0,
+          "ActualNegatives": 1,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 0,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        }
+      },
+      "EvidenceAvailability": {
+        "OmissionQueries": 2,
+        "EquivocationQueries": 1,
+        "AdmissibleOmissionCases": 0,
+        "AdmissibleEquivocationCases": 0
+      },
+      "Samples": [
+        {
+          "Repetition": 0,
+          "Order": 2,
+          "Cost": {
+            "MonotonicTicks": 320634149,
+            "Elapsed": {
+              "Value": "00:00:00.3206341"
+            },
+            "ManagedAllocatedBytes": 13831264,
+            "WorkingSetBeforeBytes": 128397312,
+            "WorkingSetAfterBytes": 128966656,
+            "ProcessPeakWorkingSetBytes": 128966656,
+            "ManagedHeapAfterBytes": 75445208,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 320634149,
+          "Elapsed": {
+            "Value": "00:00:00.3206341"
+          }
+        },
+        {
+          "Repetition": 1,
+          "Order": 1,
+          "Cost": {
+            "MonotonicTicks": 299028127,
+            "Elapsed": {
+              "Value": "00:00:00.2990281"
+            },
+            "ManagedAllocatedBytes": 13831264,
+            "WorkingSetBeforeBytes": 130498560,
+            "WorkingSetAfterBytes": 130539520,
+            "ProcessPeakWorkingSetBytes": 130539520,
+            "ManagedHeapAfterBytes": 71588928,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 299028127,
+          "Elapsed": {
+            "Value": "00:00:00.2990281"
+          }
+        }
+      ],
+      "ScoringCost": {
+        "MonotonicTicks": 8036946,
+        "Elapsed": {
+          "Value": "00:00:00.0080369"
+        },
+        "ManagedAllocatedBytes": 4729008,
+        "WorkingSetBeforeBytes": 134868992,
+        "WorkingSetAfterBytes": 134868992,
+        "ProcessPeakWorkingSetBytes": 144764928,
+        "ManagedHeapAfterBytes": 58098528,
+        "Gen0Collections": 0,
+        "Gen1Collections": 0,
+        "Gen2Collections": 0
+      }
+    },
+    {
+      "Baseline": "B1R",
+      "PublicQueries": 3,
+      "DeliveredArtifacts": 8,
+      "CommonAcquisitionGatewayRoots": 1,
+      "ExposedWitnessAttestations": 0,
+      "ProjectedInputBytes": 1048408,
+      "Predictions": [
+        {
+          "QueryId": "omission/468cfeca-f11f-98a9-e25a-d1c05cf9150f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence. Target-specific receipt acceptance verified; independent omission-proof timing remains unavailable.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "omission/9979565c-b9f8-8e43-e6bf-57d908df1b4f",
+          "Outcome": "NoFinding",
+          "Reason": "Expected payload is present in authenticated snapshot evidence. No authenticated target acceptance was acquired.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "equivocation/SYN-A-B/A/1",
+          "Outcome": "Inconclusive",
+          "Reason": "No acquired authenticated checkpoint conflict.",
+          "VerificationVerdict": null
+        }
+      ],
+      "Score": {
+        "Omission": {
+          "ActualPositives": 0,
+          "ActualNegatives": 2,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 0,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 2,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        },
+        "Equivocation": {
+          "ActualPositives": 0,
+          "ActualNegatives": 1,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 0,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        }
+      },
+      "EvidenceAvailability": {
+        "OmissionQueries": 2,
+        "EquivocationQueries": 1,
+        "AdmissibleOmissionCases": 0,
+        "AdmissibleEquivocationCases": 0
+      },
+      "Samples": [
+        {
+          "Repetition": 0,
+          "Order": 3,
+          "Cost": {
+            "MonotonicTicks": 305272778,
+            "Elapsed": {
+              "Value": "00:00:00.3052727"
+            },
+            "ManagedAllocatedBytes": 13825408,
+            "WorkingSetBeforeBytes": 128966656,
+            "WorkingSetAfterBytes": 129662976,
+            "ProcessPeakWorkingSetBytes": 129662976,
+            "ManagedHeapAfterBytes": 73311624,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 305272778,
+          "Elapsed": {
+            "Value": "00:00:00.3052727"
+          }
+        },
+        {
+          "Repetition": 1,
+          "Order": 2,
+          "Cost": {
+            "MonotonicTicks": 315616544,
+            "Elapsed": {
+              "Value": "00:00:00.3156165"
+            },
+            "ManagedAllocatedBytes": 13825160,
+            "WorkingSetBeforeBytes": 130539520,
+            "WorkingSetAfterBytes": 130740224,
+            "ProcessPeakWorkingSetBytes": 130740224,
+            "ManagedHeapAfterBytes": 68732104,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 315616544,
+          "Elapsed": {
+            "Value": "00:00:00.3156165"
+          }
+        }
+      ],
+      "ScoringCost": {
+        "MonotonicTicks": 9055839,
+        "Elapsed": {
+          "Value": "00:00:00.0090558"
+        },
+        "ManagedAllocatedBytes": 4729000,
+        "WorkingSetBeforeBytes": 134922240,
+        "WorkingSetAfterBytes": 134926336,
+        "ProcessPeakWorkingSetBytes": 144764928,
+        "ManagedHeapAfterBytes": 53050800,
+        "Gen0Collections": 1,
+        "Gen1Collections": 0,
+        "Gen2Collections": 0
+      }
+    },
+    {
+      "Baseline": "B2",
+      "PublicQueries": 3,
+      "DeliveredArtifacts": 8,
+      "CommonAcquisitionGatewayRoots": 1,
+      "ExposedWitnessAttestations": 1,
+      "ProjectedInputBytes": 1049740,
+      "Predictions": [
+        {
+          "QueryId": "omission/468cfeca-f11f-98a9-e25a-d1c05cf9150f",
+          "Outcome": "NoFinding",
+          "Reason": "Frozen Gate 2 verified presence in the challenged snapshot. Publication timeliness remains unproven.",
+          "VerificationVerdict": "Compliant"
+        },
+        {
+          "QueryId": "omission/9979565c-b9f8-8e43-e6bf-57d908df1b4f",
+          "Outcome": "Inconclusive",
+          "Reason": "The acquired evidence does not establish a complete target-specific Gate 2 determination.",
+          "VerificationVerdict": null
+        },
+        {
+          "QueryId": "equivocation/SYN-A-B/A/1",
+          "Outcome": "Inconclusive",
+          "Reason": "No acquired authenticated checkpoint conflict.",
+          "VerificationVerdict": null
+        }
+      ],
+      "Score": {
+        "Omission": {
+          "ActualPositives": 0,
+          "ActualNegatives": 2,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 1,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        },
+        "Equivocation": {
+          "ActualPositives": 0,
+          "ActualNegatives": 1,
+          "Detections": 0,
+          "FalseAccusations": 0,
+          "EvidenceCoveredPositives": 0,
+          "EvidenceConditionalDetections": 0,
+          "UnsupportedAccusations": 0,
+          "Inconclusive": 1,
+          "InvalidEvidence": 0,
+          "Missing": 0,
+          "NoFinding": 0,
+          "Accusations": 0,
+          "RawFactuallyCorrectAccusations": 0,
+          "EvidenceSupportedDetections": 0,
+          "EvidenceSupportedDetectionRate": null,
+          "EvidenceSupportedPrecision": null,
+          "UnconditionalDetectionRate": null,
+          "FalseAccusationRate": 0,
+          "EvidenceCoverage": null,
+          "EvidenceConditionalDetectionRate": null
+        }
+      },
+      "EvidenceAvailability": {
+        "OmissionQueries": 2,
+        "EquivocationQueries": 1,
+        "AdmissibleOmissionCases": 0,
+        "AdmissibleEquivocationCases": 0
+      },
+      "Samples": [
+        {
+          "Repetition": 0,
+          "Order": 4,
+          "Cost": {
+            "MonotonicTicks": 403653873,
+            "Elapsed": {
+              "Value": "00:00:00.4036538"
+            },
+            "ManagedAllocatedBytes": 20755712,
+            "WorkingSetBeforeBytes": 129662976,
+            "WorkingSetAfterBytes": 130465792,
+            "ProcessPeakWorkingSetBytes": 130465792,
+            "ManagedHeapAfterBytes": 77319664,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 403653873,
+          "Elapsed": {
+            "Value": "00:00:00.4036538"
+          }
+        },
+        {
+          "Repetition": 1,
+          "Order": 3,
+          "Cost": {
+            "MonotonicTicks": 419866500,
+            "Elapsed": {
+              "Value": "00:00:00.4198665"
+            },
+            "ManagedAllocatedBytes": 20755960,
+            "WorkingSetBeforeBytes": 130740224,
+            "WorkingSetAfterBytes": 130756608,
+            "ProcessPeakWorkingSetBytes": 130756608,
+            "ManagedHeapAfterBytes": 72851520,
+            "Gen0Collections": 1,
+            "Gen1Collections": 0,
+            "Gen2Collections": 0
+          },
+          "MonotonicTicks": 419866500,
+          "Elapsed": {
+            "Value": "00:00:00.4198665"
+          }
+        }
+      ],
+      "ScoringCost": {
+        "MonotonicTicks": 213640770,
+        "Elapsed": {
+          "Value": "00:00:00.2136407"
+        },
+        "ManagedAllocatedBytes": 16860120,
+        "WorkingSetBeforeBytes": 134967296,
+        "WorkingSetAfterBytes": 136310784,
+        "ProcessPeakWorkingSetBytes": 144764928,
+        "ManagedHeapAfterBytes": 61161848,
+        "Gen0Collections": 1,
+        "Gen1Collections": 0,
+        "Gen2Collections": 0
+      }
+    }
+  ],
+  "Preparation": {
+    "WorkloadGeneration": {
+      "MonotonicTicks": 18460425,
+      "Elapsed": {
+        "Value": "00:00:00.0184604"
+      },
+      "ManagedAllocatedBytes": 2382336,
+      "WorkingSetBeforeBytes": 84815872,
+      "WorkingSetAfterBytes": 87023616,
+      "ProcessPeakWorkingSetBytes": 87023616,
+      "ManagedHeapAfterBytes": 50079472,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    "ArchiveRestore": {
+      "MonotonicTicks": 36976993,
+      "Elapsed": {
+        "Value": "00:00:00.0369769"
+      },
+      "ManagedAllocatedBytes": 4873440,
+      "WorkingSetBeforeBytes": 87105536,
+      "WorkingSetAfterBytes": 92020736,
+      "ProcessPeakWorkingSetBytes": 92020736,
+      "ManagedHeapAfterBytes": 54994240,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    "EvidenceCollection": {
+      "MonotonicTicks": 13235822,
+      "Elapsed": {
+        "Value": "00:00:00.0132358"
+      },
+      "ManagedAllocatedBytes": 14584,
+      "WorkingSetBeforeBytes": 101036032,
+      "WorkingSetAfterBytes": 101449728,
+      "ProcessPeakWorkingSetBytes": 101449728,
+      "ManagedHeapAfterBytes": 63967048,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    "OwnerTruth": {
+      "MonotonicTicks": 546620247,
+      "Elapsed": {
+        "Value": "00:00:00.5466202"
+      },
+      "ManagedAllocatedBytes": 15324568,
+      "WorkingSetBeforeBytes": 101474304,
+      "WorkingSetAfterBytes": 115036160,
+      "ProcessPeakWorkingSetBytes": 115036160,
+      "ManagedHeapAfterBytes": 66627432,
+      "Gen0Collections": 1,
+      "Gen1Collections": 1,
+      "Gen2Collections": 0
+    },
+    "PublicKeyBootstrap": {
+      "MonotonicTicks": 1147017,
+      "Elapsed": {
+        "Value": "00:00:00.0011470"
+      },
+      "ManagedAllocatedBytes": 16768,
+      "WorkingSetBeforeBytes": 115036160,
+      "WorkingSetAfterBytes": 115085312,
+      "ProcessPeakWorkingSetBytes": 115085312,
+      "ManagedHeapAfterBytes": 66676776,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    "FullSnapshotVerification": {
+      "MonotonicTicks": 104947416,
+      "Elapsed": {
+        "Value": "00:00:00.1049474"
+      },
+      "ManagedAllocatedBytes": 3411344,
+      "WorkingSetBeforeBytes": 115867648,
+      "WorkingSetAfterBytes": 115867648,
+      "ProcessPeakWorkingSetBytes": 115867648,
+      "ManagedHeapAfterBytes": 65123144,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    "FullSnapshotVerdict": "Compliant",
+    "FullSnapshotLeaves": 1000
+  },
+  "AlwaysAccuse": {
+    "Omission": {
+      "ActualPositives": 0,
+      "ActualNegatives": 2,
+      "Detections": 0,
+      "FalseAccusations": 2,
+      "EvidenceCoveredPositives": 0,
+      "EvidenceConditionalDetections": 0,
+      "UnsupportedAccusations": 2,
+      "Inconclusive": 0,
+      "InvalidEvidence": 0,
+      "Missing": 0,
+      "NoFinding": 0,
+      "Accusations": 2,
+      "RawFactuallyCorrectAccusations": 0,
+      "EvidenceSupportedDetections": 0,
+      "EvidenceSupportedDetectionRate": null,
+      "EvidenceSupportedPrecision": 0,
+      "UnconditionalDetectionRate": null,
+      "FalseAccusationRate": 1,
+      "EvidenceCoverage": null,
+      "EvidenceConditionalDetectionRate": null
+    },
+    "Equivocation": {
+      "ActualPositives": 0,
+      "ActualNegatives": 1,
+      "Detections": 0,
+      "FalseAccusations": 1,
+      "EvidenceCoveredPositives": 0,
+      "EvidenceConditionalDetections": 0,
+      "UnsupportedAccusations": 1,
+      "Inconclusive": 0,
+      "InvalidEvidence": 0,
+      "Missing": 0,
+      "NoFinding": 0,
+      "Accusations": 1,
+      "RawFactuallyCorrectAccusations": 0,
+      "EvidenceSupportedDetections": 0,
+      "EvidenceSupportedDetectionRate": null,
+      "EvidenceSupportedPrecision": 0,
+      "UnconditionalDetectionRate": null,
+      "FalseAccusationRate": 1,
+      "EvidenceCoverage": null,
+      "EvidenceConditionalDetectionRate": null
+    }
+  },
+  "AlwaysInconclusive": {
+    "Omission": {
+      "ActualPositives": 0,
+      "ActualNegatives": 2,
+      "Detections": 0,
+      "FalseAccusations": 0,
+      "EvidenceCoveredPositives": 0,
+      "EvidenceConditionalDetections": 0,
+      "UnsupportedAccusations": 0,
+      "Inconclusive": 2,
+      "InvalidEvidence": 0,
+      "Missing": 0,
+      "NoFinding": 0,
+      "Accusations": 0,
+      "RawFactuallyCorrectAccusations": 0,
+      "EvidenceSupportedDetections": 0,
+      "EvidenceSupportedDetectionRate": null,
+      "EvidenceSupportedPrecision": null,
+      "UnconditionalDetectionRate": null,
+      "FalseAccusationRate": 0,
+      "EvidenceCoverage": null,
+      "EvidenceConditionalDetectionRate": null
+    },
+    "Equivocation": {
+      "ActualPositives": 0,
+      "ActualNegatives": 1,
+      "Detections": 0,
+      "FalseAccusations": 0,
+      "EvidenceCoveredPositives": 0,
+      "EvidenceConditionalDetections": 0,
+      "UnsupportedAccusations": 0,
+      "Inconclusive": 1,
+      "InvalidEvidence": 0,
+      "Missing": 0,
+      "NoFinding": 0,
+      "Accusations": 0,
+      "RawFactuallyCorrectAccusations": 0,
+      "EvidenceSupportedDetections": 0,
+      "EvidenceSupportedDetectionRate": null,
+      "EvidenceSupportedPrecision": null,
+      "UnconditionalDetectionRate": null,
+      "FalseAccusationRate": 0,
+      "EvidenceCoverage": null,
+      "EvidenceConditionalDetectionRate": null
+    }
+  }
+}

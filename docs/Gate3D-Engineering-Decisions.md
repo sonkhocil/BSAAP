@@ -77,3 +77,41 @@
   These timings must not be added as disjoint components of end-to-end latency.
 - Release build and one warmup/two measured repetitions are feasibility choices.
   No forced GC, CPU pinning or production network transport is used.
+
+## Milestone E
+
+- Executed 72 paired feasibility cases with seeds 2027/2028, nominal 100/1,000
+  leaves, 18 conditions, five configurations and two measured repetitions.
+  All 360 configuration results and 720 samples were saved.
+- Release assembly source stamp and Git HEAD matched implementation commit
+  e96bb0e89f310b610efadd11d835cf286bd3d26a. No debugger was attached according
+  to the runtime guard. Final Debug and Release suites each passed 158 tests.
+- The 10,000- and 50,000-leaf epochs were not executed. At 1,000 leaves the
+  isolated snapshot diagnostic already had a 100.188 ms median and about
+  3.41 MB of managed allocations. Repeated classification and archival costs
+  made larger matrices inappropriate for this modest feasibility stage.
+- Raw timing medians aggregate heterogeneous conditions and are diagnostic only.
+  The two repetitions do not support steady-state or tail-latency claims.
+
+## Milestone F
+
+- Saved-input replay matched every prediction and score for all 72 cases.
+  Separate process replays also matched at 100 and 1,000 leaves.
+- Independent Python checks verified 72 archive digests, CSV/JSON row counts,
+  finite rates, denominators, paired workloads, shared witness-family production
+  bytes, source stamps and clock-unit conversions.
+- No implemented configuration produced a false or unsupported accusation in
+  these fixtures. The always-accuse control exposed 116 false omission accusations
+  and 48 false equivocation accusations, despite raw detection of every positive.
+- B1-R produced no supported omission accusation and received no witness inputs.
+  Like B1 and B1-W, it produced 12 supported equivocation detections from 24 actual
+  signed-equivocation cases. B2 additionally produced 4 supported omissions from
+  28 actual omission-policy violations.
+- Within-case timing max/min ratios had a median of 1.037, empirical 95th
+  percentile 1.388 and maximum 21.255. Timing stability is insufficient for final
+  benchmarking under this shared-host, one-warmup/two-sample protocol.
+- Wrong source provenance was deliberately rejected before creating an output
+  directory. Its expected nonzero exit and the earlier CLI invocation error are
+  retained in verification logs, rather than represented as test results.
+- Frozen Gate 2 source and tests remained byte-for-byte identical. No branches
+  were merged. Recommendation is Not Ready for final benchmarking.

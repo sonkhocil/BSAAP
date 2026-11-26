@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "source_sha": "e96bb0e89f310b610efadd11d835cf286bd3d26a",
+  "cases": 72,
+  "configuration_results": 360,
+  "timing_samples": 720,
+  "input_archives_checked": 72,
+  "current_binary_fingerprint_match": true,
+  "peak_working_set_bytes": 396333056,
+  "repeat_ratio_median": 1.0371144305468274,
+  "repeat_ratio_p95": 1.3881646988951124,
+  "repeat_ratio_max": 21.254913169462462,
+  "checks": [
+    "counts",
+    "outcome_totals",
+    "finite_rates",
+    "paired_workloads",
+    "witness_causality",
+    "compressed_digest",
+    "signed_archive_digest",
+    "provenance",
+    "CSV_JSON_rows",
+    "clock_units"
+  ]
+}
