@@ -120,3 +120,8 @@ commit identity. Runtime details support provenance and do not affect replay.
 
 Only deterministic unit workloads run during this preparation. Baseline algorithms,
 benchmark runners, final performance experiments and methodology claims remain pending.
+
+The checked-in `Gate3A-ExampleManifest.json` was produced by the manifest factory
+for a four-transaction synthetic configuration. Its source SHA identifies the clean
+implementation commit immediately before the example artifact was added. Creating
+this example only serializes configuration and runtime provenance.
