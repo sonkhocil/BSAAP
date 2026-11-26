@@ -10,6 +10,7 @@ public sealed class EvidenceAcquisition
     private readonly AcquisitionPlan _plan;
     private readonly ImmutableArray<AuditQuery> _queries;
     internal ImmutableArray<ArtifactDelivery> Deliveries { get; }
+    internal AcquisitionPlan Plan => _plan;
     internal ImmutableArray<string> ObserverIds => _plan.Observers.Select(o => o.Observer).ToImmutableArray();
 
     public EvidenceAcquisition(SimulationRun run, ProtocolArchive archive, AcquisitionPlan plan)

@@ -34,6 +34,11 @@ public sealed record SignedEvidence<T>(string Json)
         ?? throw new InvalidOperationException("Missing artifact.");
     public bool TryRead(out T artifact)
     {
+        if (string.IsNullOrWhiteSpace(Json))
+        {
+            artifact = default!;
+            return false;
+        }
         try
         {
             artifact = Read();
@@ -64,7 +69,12 @@ public sealed record AuditQuery(
 
 public enum BaselineId { B0, B1, B1W, B2 }
 public enum AssessmentOutcome { NoFinding, Accusation, Inconclusive, InvalidEvidence }
-public sealed record Prediction(string QueryId, AssessmentOutcome Outcome);
+public sealed record Prediction(string QueryId, AssessmentOutcome Outcome, string? Reason = null,
+    Bsaap.ForensicLog.Contracts.AuditVerdict? VerificationVerdict = null);
+
+public sealed record TrustedPublicSigner(
+    string Id, string SubjectPublicKeyInfo, Bsaap.ForensicLog.Contracts.SignerRole Role,
+    ImmutableArray<string> Gateways, ImmutableArray<string> Logs, ImmutableArray<string> Corridors);
 
 // All projections share the same public query stream and acquisition budget.
 public sealed record AuditContext(

@@ -146,6 +146,10 @@ public sealed record DetectionScore(
     int UnsupportedAccusations, int Inconclusive, int InvalidEvidence, int Missing,
     int NoFinding, int Accusations)
 {
+    public int RawFactuallyCorrectAccusations => Detections;
+    public int EvidenceSupportedDetections => EvidenceConditionalDetections;
+    public double? EvidenceSupportedDetectionRate => Ratio(EvidenceSupportedDetections, ActualPositives);
+    public double? EvidenceSupportedPrecision => Ratio(EvidenceSupportedDetections, Accusations);
     public double? UnconditionalDetectionRate => Ratio(Detections, ActualPositives);
     public double? FalseAccusationRate => Ratio(FalseAccusations, ActualNegatives);
     public double? EvidenceCoverage => Ratio(EvidenceCoveredPositives, ActualPositives);

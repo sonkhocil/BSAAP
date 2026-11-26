@@ -39,6 +39,10 @@ public sealed class ProtocolArchive
         return new(data.Artifacts, data.Signers);
     }
 
+    public ImmutableArray<TrustedPublicSigner> ExportTrustedPublicKeys() =>
+        _signers.Select(s => new TrustedPublicSigner(s.Id, s.PublicKey, s.Role,
+            s.Gateways, s.Logs, s.Corridors)).ToImmutableArray();
+
     public TrustedKeyRegistry CreateRegistry()
     {
         var registry = new TrustedKeyRegistry();
