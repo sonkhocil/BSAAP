@@ -1,0 +1,30 @@
+  Determining projects to restore...
+  Restored /workspace/BSAAP/src/Bsaap.Simulation/Bsaap.Simulation.csproj (in 43 ms).
+  Restored /workspace/BSAAP/src/Bsaap.Simulation.Contracts/Bsaap.Simulation.Contracts.csproj (in 1 ms).
+  Restored /workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj (in 637 ms).
+  2 of 5 projects are up-to-date for restore.
+  Bsaap.Simulation.Contracts -> /workspace/BSAAP/src/Bsaap.Simulation.Contracts/bin/Debug/net9.0/Bsaap.Simulation.Contracts.dll
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Debug/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.Simulation -> /workspace/BSAAP/src/Bsaap.Simulation/bin/Debug/net9.0/Bsaap.Simulation.dll
+  Bsaap.ForensicLog.Tests -> /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(83,43): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(126,54): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(158,43): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(179,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(180,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(181,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(182,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+
+Build FAILED.
+
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(83,43): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(126,54): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(158,43): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(179,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(180,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(181,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+/workspace/BSAAP/tests/Bsaap.Simulation.Tests/SimulationTests.cs(182,83): error CS8752: The type 'FaultRule[]' may not be used as the target type of new() [/workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj]
+    0 Warning(s)
+    7 Error(s)
+
+Time Elapsed 00:00:06.07
