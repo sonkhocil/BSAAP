@@ -1,5 +1,9 @@
 # Gate 3A simulation preparation
 
+This document describes the historical Gate 3A API at commit
+`28163bcea46b15489f85eb32d115c84d75d9b590`. The current acquisition contracts
+and scoring semantics are documented in [Gate 3B](Gate3B-Evidence-And-Scoring.md).
+
 The branch starts at frozen Gate 2 commit `ac1b997f3732483ae8d6df60774458111703f0eb`.
 The existing forensic source and its tests retain their frozen contents.
 

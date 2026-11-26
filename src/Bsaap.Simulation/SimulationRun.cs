@@ -3,48 +3,57 @@ using Bsaap.Simulation.Contracts;
 
 namespace Bsaap.Simulation;
 
-// Counts are returned to the experiment owner after classification. The classifier
-// is never passed this run, its schedule, manifest or the private ground-truth ledger.
-public sealed record Evaluation(int Events, int Correct, int Incorrect, int Missing, int Unknown);
-
+// The owner retains the complete write ledger. Classifier inputs are created
+// only through EvidenceAcquisition projections, never from this internal trace.
 public sealed class SimulationRun
 {
-    private sealed record GroundTruthEvent(SyntheticEvent Original, Classification Expected);
-    private readonly ImmutableDictionary<EventId, GroundTruthEvent> _groundTruth;
-    public EvidenceTrace Evidence { get; }
+    internal ImmutableArray<SyntheticEvent> Pristine { get; }
+    internal ImmutableArray<ObservedRecord> Records { get; }
 
-    private SimulationRun(EvidenceTrace evidence, ImmutableDictionary<EventId, GroundTruthEvent> groundTruth)
+    private SimulationRun(ImmutableArray<ObservedRecord> records, ImmutableArray<SyntheticEvent> pristine)
     {
-        Evidence = evidence;
-        _groundTruth = groundTruth;
+        Records = records;
+        Pristine = pristine;
     }
 
-    public Evaluation Evaluate(ImmutableArray<Prediction> predictions)
+    internal ImmutableArray<PhysicalEventTruth> PhysicalTruth(LogicalInstant horizon)
     {
-        if (predictions.IsDefault || predictions.Any(p => p is null || !Enum.IsDefined(p.Classification)) ||
-            predictions.Select(p => p.EventId).Distinct().Count() != predictions.Length)
-            throw new ArgumentException("Predictions must contain unique event IDs and valid classifications.");
+        if (horizon.Milliseconds < 0)
+            throw new ArgumentOutOfRangeException(nameof(horizon));
+        return Pristine.SelectMany(original => new[] { "primary", "alternate" }.Select(view =>
+            new PhysicalEventTruth(original, "A", original.Corridor + "/A", view, horizon,
+                Records.Where(record => record.Gateway == "A" && record.ViewId == view &&
+                    record.Event.EventId == original.EventId && record.LoggedAt <= horizon.Milliseconds)
+                    .Select(record => new LogicalInstant(record.LoggedAt)).ToImmutableArray(),
+                Records.Where(record => record.Gateway == "A" && record.ViewId == view &&
+                    record.Event == original && record.LoggedAt <= horizon.Milliseconds)
+                    .Select(record => new LogicalInstant(record.LoggedAt)).ToImmutableArray()))).ToImmutableArray();
+    }
 
-        int correct = 0;
-        int incorrect = 0;
-        int unknown = 0;
-        foreach (var prediction in predictions)
+    internal ImmutableArray<PolicyTruth> PolicyTruth(
+        ProtocolSchedule schedule, LogicalInstant horizon)
+    {
+        if (schedule.Obligations.Any(o => o.Deadline.Milliseconds > horizon.Milliseconds))
+            throw new ArgumentException("Policy evaluation requires a horizon at or after every deadline.");
+        var physical = PhysicalTruth(horizon);
+        return schedule.Obligations.SelectMany(obligation =>
         {
-            if (!_groundTruth.TryGetValue(prediction.EventId, out var expected))
-                unknown++;
-            else if (prediction.Classification == expected.Expected)
-                correct++;
-            else
-                incorrect++;
-        }
-        return new(_groundTruth.Count, correct, incorrect, _groundTruth.Count - correct - incorrect, unknown);
+            var original = Pristine[obligation.EventOrdinal];
+            bool accepted = obligation.IssuerGateway == "A"
+                ? obligation.PublishedAt.Milliseconds <= obligation.Deadline.Milliseconds
+                : obligation.TargetAckAt is { } ack && ack.Milliseconds <= obligation.Deadline.Milliseconds;
+            return physical.Where(fact => fact.Original.EventId == original.EventId).Select(fact =>
+                new PolicyTruth(original.EventId, fact.InternalView, accepted, obligation.Deadline,
+                    fact.Writes.Any(time => time.Milliseconds <= obligation.Deadline.Milliseconds),
+                    !fact.PhysicallyAbsent,
+                    fact.MatchingWrites.Any(time => time.Milliseconds <= obligation.Deadline.Milliseconds)));
+        }).ToImmutableArray();
     }
 
     public static SimulationRun Create(SimulationConfiguration configuration)
     {
         var pristine = SyntheticGenerator.Generate(configuration);
         var records = new List<ObservedRecord>();
-        var truth = ImmutableDictionary.CreateBuilder<EventId, GroundTruthEvent>();
         for (int ordinal = 0; ordinal < pristine.Length; ordinal++)
         {
             var paymentEvent = pristine[ordinal];
@@ -72,7 +81,6 @@ public sealed class SimulationRun
             var alternate = equivocated
                 ? paymentEvent with { AmountMinorUnits = checked(paymentEvent.AmountMinorUnits + 1) }
                 : paymentEvent;
-            bool delivered = false;
             foreach (var attempt in attempts)
             {
                 long time = RecoverFromPartitions(attempt.Time, paymentEvent.Corridor, configuration.Faults);
@@ -80,12 +88,9 @@ public sealed class SimulationRun
                     InWindow(rule, time, paymentEvent.Corridor));
                 if (omitted || crashed)
                     continue;
-                delivered = true;
                 AddRecord(records, paymentEvent, "A", "primary", time, attempt.Attempt);
                 AddRecord(records, alternate, "A", "alternate", time, attempt.Attempt);
             }
-            truth.Add(paymentEvent.EventId, new(paymentEvent, !delivered ? Classification.Omission :
-                equivocated ? Classification.Equivocation : Classification.NoFinding));
         }
 
         // Stable ordering resolves simultaneous writes by insertion order. Each log view
@@ -100,7 +105,7 @@ public sealed class SimulationRun
             evidence.Add(record with { LeafIndex = new LogLeafIndex(index) });
             nextIndex[scope] = checked(index + 1);
         }
-        return new(new EvidenceTrace(evidence.ToImmutable()), truth.ToImmutable());
+        return new(evidence.ToImmutable(), pristine);
     }
 
     private static bool InWindow(FaultRule rule, long time, string corridor) =>
