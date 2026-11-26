@@ -1,0 +1,46 @@
+.NET SDK:
+ Version:           9.0.321
+ Commit:            47cfea2824
+ Workload version:  9.0.300-manifests.7a6b3a52
+ MSBuild version:   17.14.60+43b635718
+
+Runtime Environment:
+ OS Name:     debian
+ OS Version:  13
+ OS Platform: Linux
+ RID:         linux-x64
+ Base Path:   /tmp/bsaap-dotnet/sdk/9.0.321/
+
+.NET workloads installed:
+There are no installed workloads to display.
+Configured to use loose manifests when installing new manifests.
+
+Host:
+  Version:      9.0.23
+  Architecture: x64
+  Commit:       9d2830390d
+
+.NET SDKs installed:
+  9.0.308 [/tmp/bsaap-dotnet/sdk]
+  9.0.321 [/tmp/bsaap-dotnet/sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 9.0.11 [/tmp/bsaap-dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 9.0.23 [/tmp/bsaap-dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 9.0.11 [/tmp/bsaap-dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 9.0.23 [/tmp/bsaap-dotnet/shared/Microsoft.NETCore.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  Not set
+
+global.json file:
+  Not found
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download

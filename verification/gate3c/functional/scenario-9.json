@@ -1,0 +1,248 @@
+{
+  "Manifest": {
+    "SchemaVersion": "BSAAP-EVIDENCE/1",
+    "Workload": {
+      "SchemaVersion": "BSAAP-EXPERIMENT/1",
+      "GeneratorVersion": "sha256-counter-v1",
+      "SourceCommitSha": "aee9aca31d9737a9e11ea447eb6109f1c71cd4b2",
+      "FrozenGate2CommitSha": "ac1b997f3732483ae8d6df60774458111703f0eb",
+      "Seed": 2027,
+      "Scenario": "gate3c-functional",
+      "Runtime": {
+        "Framework": ".NET 9.0.23",
+        "OperatingSystem": "Debian GNU/Linux 13 (trixie)",
+        "Architecture": "X64"
+      },
+      "Configuration": {
+        "Seed": 2027,
+        "Scenario": "gate3c-functional",
+        "TransactionCount": 1,
+        "Corridors": [
+          "SYN-A-B"
+        ],
+        "StartTime": 100000,
+        "TransactionSpacing": 40000,
+        "EventSpacing": 10000,
+        "Faults": [
+          {
+            "Kind": "Crash",
+            "EventOrdinal": null,
+            "Corridor": null,
+            "Start": 100000,
+            "End": 110000,
+            "Delay": 0,
+            "ExtraCopies": 1
+          },
+          {
+            "Kind": "Retry",
+            "EventOrdinal": 0,
+            "Corridor": null,
+            "Start": 0,
+            "End": 0,
+            "Delay": 60000,
+            "ExtraCopies": 1
+          }
+        ]
+      },
+      "ConfigurationSha256": "32d42cc63560d645fd335ae810342ca0e0d164b02085341505eb4f08af7c0bdf"
+    },
+    "Protocol": {
+      "Clock": {
+        "EpochSeconds": 1800000000
+      },
+      "Obligations": [
+        {
+          "Id": "obligation",
+          "EventOrdinal": 0,
+          "IssuerGateway": "B",
+          "PublishedAt": {
+            "Milliseconds": 90000
+          },
+          "Deadline": {
+            "Milliseconds": 150000
+          },
+          "TargetAckAt": {
+            "Milliseconds": 95000
+          },
+          "AckAvailableAt": {
+            "Milliseconds": 95000
+          }
+        }
+      ],
+      "Challenges": [
+        {
+          "Id": "challenge",
+          "ObligationId": "obligation",
+          "IssuedAt": {
+            "Milliseconds": 160000
+          },
+          "ExpiresAt": {
+            "Milliseconds": 200000
+          }
+        }
+      ],
+      "Checkpoints": [
+        {
+          "Id": "head",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 170000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "fork",
+          "Gateway": "A",
+          "Corridor": "SYN-A-B",
+          "InternalView": "alternate",
+          "CreatedAt": {
+            "Milliseconds": 170000
+          },
+          "ChallengeId": "challenge",
+          "ClaimedTimestamp": null
+        },
+        {
+          "Id": "peer",
+          "Gateway": "B",
+          "Corridor": "SYN-A-B",
+          "InternalView": "primary",
+          "CreatedAt": {
+            "Milliseconds": 170000
+          },
+          "ChallengeId": null,
+          "ClaimedTimestamp": null
+        }
+      ],
+      "Witnesses": [
+        {
+          "Id": "witness",
+          "CheckpointId": "head",
+          "ObservedAt": {
+            "Milliseconds": 180000
+          },
+          "AvailableAt": {
+            "Milliseconds": 180000
+          }
+        }
+      ]
+    },
+    "Acquisition": {
+      "Budget": {
+        "MaximumRequests": 4,
+        "MaximumArtifactsPerRequest": 6
+      },
+      "Observers": [
+        {
+          "Observer": "reviewer",
+          "OwnGateway": "A",
+          "Cutoff": {
+            "Milliseconds": 210000
+          },
+          "Requests": [
+            {
+              "Id": "a",
+              "Target": "A",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 170000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 210000
+              }
+            },
+            {
+              "Id": "b",
+              "Target": "B",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 160000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 210000
+              }
+            },
+            {
+              "Id": "w",
+              "Target": "W",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 180000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 210000
+              }
+            },
+            {
+              "Id": "aud",
+              "Target": "AUDITOR",
+              "Channel": "Direct",
+              "SentAt": {
+                "Milliseconds": 160000
+              },
+              "TimeoutAt": {
+                "Milliseconds": 210000
+              }
+            }
+          ]
+        }
+      ],
+      "Disclosure": [
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "obligation",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "b",
+          "ArtifactId": "peer/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "head/snapshot",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "w",
+          "ArtifactId": "witness",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "aud",
+          "ArtifactId": "challenge",
+          "DeliveryDelayMilliseconds": 0
+        },
+        {
+          "Observer": "reviewer",
+          "RequestId": "a",
+          "ArtifactId": "obligation/ack",
+          "DeliveryDelayMilliseconds": 0
+        }
+      ]
+    },
+    "ArchiveSha256": "340bc8622fc4a5e48302e40aa047f00c40caae8d61092e8c52a6f17dc467d619",
+    "ConfigurationSha256": "5f466e8e680f1da7c6425bf5f37d97eeaeb726192c1970150a97c5ddc5fb5458"
+  },
+  "ProductionArchive": "{\u0022Artifacts\u0022:[{\u0022Id\u0022:\u0022obligation\u0022,\u0022Producer\u0022:\u0022B\u0022,\u0022Kind\u0022:2,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:90000},\u0022Json\u0022:\u0022{\\u0022Version\\u0022:2,\\u0022AuditedGatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022SeqNum\\u0022:1,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:1,\\u0022PayloadHash\\u0022:\\u00220zoorInLfgNYjQNQwc5HJ7kp0Xv42C1VMGTNPmHTabE=\\u0022,\\u0022Timestamp\\u0022:1800000090,\\u0022PublicationDeadline\\u0022:1800000150,\\u0022IssuerSignerId\\u0022:\\u0022B\\u0022,\\u0022IssuerSignature\\u0022:\\u0022rJxXmJYWEmnMQAeYYyyi\\u002Bc/erc4RGMdcCzQ28EwP3mC6w4ujEYWEf\\u002BjaTEOjPl3fcMKrBn5BPCu3Q527aECV9w==\\u0022,\\u0022TargetAckSignature\\u0022:null,\\u0022EpochId\\u0022:1,\\u0022IssuerGatewayId\\u0022:\\u0022B\\u0022,\\u0022TargetAckSignerId\\u0022:\\u0022A\\u0022}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022obligation/ack\u0022,\u0022Producer\u0022:\u0022A\u0022,\u0022Kind\u0022:3,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:95000},\u0022Json\u0022:\u0022{\\u0022Version\\u0022:2,\\u0022AuditedGatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022SeqNum\\u0022:1,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:1,\\u0022PayloadHash\\u0022:\\u00220zoorInLfgNYjQNQwc5HJ7kp0Xv42C1VMGTNPmHTabE=\\u0022,\\u0022Timestamp\\u0022:1800000090,\\u0022PublicationDeadline\\u0022:1800000150,\\u0022IssuerSignerId\\u0022:\\u0022B\\u0022,\\u0022IssuerSignature\\u0022:\\u0022rJxXmJYWEmnMQAeYYyyi\\u002Bc/erc4RGMdcCzQ28EwP3mC6w4ujEYWEf\\u002BjaTEOjPl3fcMKrBn5BPCu3Q527aECV9w==\\u0022,\\u0022TargetAckSignature\\u0022:\\u00224EqEynQ\\u002BFB8FYvL4M/\\u002BnG9p4DQ5QnNwPfOFvZT/BCSfJ9G0WSFGBsVD\\u002BvOlqsMz0gBDPaVkERdIMV0INJLpoEA==\\u0022,\\u0022EpochId\\u0022:1,\\u0022IssuerGatewayId\\u0022:\\u0022B\\u0022,\\u0022TargetAckSignerId\\u0022:\\u0022A\\u0022}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022challenge\u0022,\u0022Producer\u0022:\u0022AUDITOR\u0022,\u0022Kind\u0022:4,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:160000},\u0022Json\u0022:\u0022{\\u0022AuditorId\\u0022:\\u0022AUDITOR\\u0022,\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022ObligationDigest\\u0022:\\u0022g/H9BIwDQHX4hKLjkWXesNmpWJaQceRNLEL0m/nKlZQ=\\u0022,\\u0022Nonce\\u0022:\\u0022jZ1B5Xoa/NIbB8IHR5BeBvfrGOHxafTaHry1qDuu5i8=\\u0022,\\u0022IssuedAt\\u0022:1800000160,\\u0022ExpiresAt\\u0022:1800000200,\\u0022Signature\\u0022:\\u002206IyM9qe7mM00x50CK9PzOvjEUuDQrUs4GJ7oftYhrj6gZjtrp0j3Mw9S6bLAIOieIBtzYCOUBr6DCY/cQxisg==\\u0022}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022head\u0022,\u0022Producer\u0022:\u0022A\u0022,\u0022Kind\u0022:0,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022Z7iHlIn9fE2\\u002BsrClog/lEvrJJ16sl2R\\u002Bt8\\u002BOfjOZZkk=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022nOEw4hkaIcG\\u002BoLTA2M81nSAq1Bqcs7kwpS\\u002BnLKRTzLXppqsh5uBMG8kT\\u002Beq3Kw5\\u002BbTeqcmcBMKWV6X6LH9Molg==\\u0022,\\u0022ChallengeDigest\\u0022:\\u0022Nxs82rOB7MXl9oAIFIkWBUeq1Q\\u002BVBGN0kFrujnRk6n4=\\u0022}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022head/snapshot\u0022,\u0022Producer\u0022:\u0022A\u0022,\u0022Kind\u0022:1,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022Entries\\u0022:[{\\u0022LeafIdx\\u0022:0,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:2,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:2,\\u0022PayloadHash\\u0022:\\u0022XUty6\\u002BQP1YVUKWEtvGxWXRErtPVPmcCtCTWcKAsgNIk=\\u0022,\\u0022Timestamp\\u0022:1800000110,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022gxynY9foRUqOfCmuz3I\\u002B265TonUxVjoqgnn8EA34rlnWnv0IWq13ZzLv9kFAp1Gc7\\u002BUCqGJlbaAN/mEgALuGkA==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:1,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:3,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:3,\\u0022PayloadHash\\u0022:\\u0022XrBOXmrFdNaHqNoWITosNRnyfidC8XmmSk/fhdK2Xrk=\\u0022,\\u0022Timestamp\\u0022:1800000120,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022mOkp\\u002BFueD9114GEpByC8ebiDyjV8ok\\u002BF9aZQeb2wEmf7uNOz66VBi95mWwPgTsKSd5vX0rnAMNncT9wEnfIQwA==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:2,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:4,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:4,\\u0022PayloadHash\\u0022:\\u0022KxpPpgcxtOPcT2o063mfg9jMcBdmM9oJvmJiim4IhU8=\\u0022,\\u0022Timestamp\\u0022:1800000130,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022drHENPojlYlNhjqSyKpJV6gQfZiiGXHBOChNrNe\\u002BAPiy2is6QO9VMcYPBE1SrlpfCa1KdvBP8L7FdbL9B/d4iQ==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:3,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:1,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:1,\\u0022PayloadHash\\u0022:\\u00220zoorInLfgNYjQNQwc5HJ7kp0Xv42C1VMGTNPmHTabE=\\u0022,\\u0022Timestamp\\u0022:1800000160,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022l1SN9I3lvXxizHy6A3yY06HVO3m9lyGFGeSd3SCQdKXQy4nM78dL94sX4MGbkoa1clQz81F9neYKixxPI57BPQ==\\u0022,\\u0022EpochId\\u0022:1}],\\u0022Checkpoint\\u0022:{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022Z7iHlIn9fE2\\u002BsrClog/lEvrJJ16sl2R\\u002Bt8\\u002BOfjOZZkk=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022nOEw4hkaIcG\\u002BoLTA2M81nSAq1Bqcs7kwpS\\u002BnLKRTzLXppqsh5uBMG8kT\\u002Beq3Kw5\\u002BbTeqcmcBMKWV6X6LH9Molg==\\u0022,\\u0022ChallengeDigest\\u0022:\\u0022Nxs82rOB7MXl9oAIFIkWBUeq1Q\\u002BVBGN0kFrujnRk6n4=\\u0022}}\u0022,\u0022LocalRecords\u0022:[{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:0},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00229979565c-b9f8-8e43-e6bf-57d908df1b4f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:2},\u0022Type\u0022:1,\u0022OccurredAt\u0022:110000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:110000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:1},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00222e3d4886-5a89-775d-2fb2-b65047fb163b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:3},\u0022Type\u0022:2,\u0022OccurredAt\u0022:120000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:120000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:2},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022d868f153-e8f4-77ab-c9c6-b3db13f1fa8b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:4},\u0022Type\u0022:3,\u0022OccurredAt\u0022:130000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:130000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:3},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022468cfeca-f11f-98a9-e25a-d1c05cf9150f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:1},\u0022Type\u0022:0,\u0022OccurredAt\u0022:100000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:160000},\u0022Attempt\u0022:1}]},{\u0022Id\u0022:\u0022fork\u0022,\u0022Producer\u0022:\u0022A\u0022,\u0022Kind\u0022:0,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022Z7iHlIn9fE2\\u002BsrClog/lEvrJJ16sl2R\\u002Bt8\\u002BOfjOZZkk=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022f/b8asQkJZoMS\\u002BoIMiJQuyiURpauFMyL3Zm9nozgV/NQaQ2X99kUCgmViYWjPy/erX0dm5YPrrFM3mrR25dNAg==\\u0022,\\u0022ChallengeDigest\\u0022:\\u0022Nxs82rOB7MXl9oAIFIkWBUeq1Q\\u002BVBGN0kFrujnRk6n4=\\u0022}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022fork/snapshot\u0022,\u0022Producer\u0022:\u0022A\u0022,\u0022Kind\u0022:1,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022Entries\\u0022:[{\\u0022LeafIdx\\u0022:0,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:2,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:2,\\u0022PayloadHash\\u0022:\\u0022XUty6\\u002BQP1YVUKWEtvGxWXRErtPVPmcCtCTWcKAsgNIk=\\u0022,\\u0022Timestamp\\u0022:1800000110,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022cz10fUDvjcnSLVhbnYge0UiqG0ZTqcPcuowyzgq/GSullLqjUqnuMf03xE930TKttIMViFtkak3fTNzDjtCHOA==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:1,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:3,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:3,\\u0022PayloadHash\\u0022:\\u0022XrBOXmrFdNaHqNoWITosNRnyfidC8XmmSk/fhdK2Xrk=\\u0022,\\u0022Timestamp\\u0022:1800000120,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022B1YLCZ1KuPfhDnzp3Isnc2oAHQPpx5HveCMDqRrJrGVhzsj5JLQ6e\\u002BrZoCmGF9d8ZA69feGi3\\u002BVIiaF3e7y09g==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:2,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:4,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:4,\\u0022PayloadHash\\u0022:\\u0022KxpPpgcxtOPcT2o063mfg9jMcBdmM9oJvmJiim4IhU8=\\u0022,\\u0022Timestamp\\u0022:1800000130,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022XSl\\u002BqQRRsxTcnAwCzWvv/gy2jMO/WvIMPkgiQ7M/qE02FaNHHgscULN4XeqMGQJ820hA7HrHeVCYBnfTLrx6LQ==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:3,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022SeqNum\\u0022:1,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:1,\\u0022PayloadHash\\u0022:\\u00220zoorInLfgNYjQNQwc5HJ7kp0Xv42C1VMGTNPmHTabE=\\u0022,\\u0022Timestamp\\u0022:1800000160,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022yMFVz36GriRUEZTeNLbK0uEa9rNWWTuBtcpReh1bqfryKP8o0SO9YEWICrsNysClZtKtkn4B5zNQ5ovWLJJRMg==\\u0022,\\u0022EpochId\\u0022:1}],\\u0022Checkpoint\\u0022:{\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022Z7iHlIn9fE2\\u002BsrClog/lEvrJJ16sl2R\\u002Bt8\\u002BOfjOZZkk=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022A\\u0022,\\u0022Signature\\u0022:\\u0022f/b8asQkJZoMS\\u002BoIMiJQuyiURpauFMyL3Zm9nozgV/NQaQ2X99kUCgmViYWjPy/erX0dm5YPrrFM3mrR25dNAg==\\u0022,\\u0022ChallengeDigest\\u0022:\\u0022Nxs82rOB7MXl9oAIFIkWBUeq1Q\\u002BVBGN0kFrujnRk6n4=\\u0022}}\u0022,\u0022LocalRecords\u0022:[{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:0},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00229979565c-b9f8-8e43-e6bf-57d908df1b4f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:2},\u0022Type\u0022:1,\u0022OccurredAt\u0022:110000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:110000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:1},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00222e3d4886-5a89-775d-2fb2-b65047fb163b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:3},\u0022Type\u0022:2,\u0022OccurredAt\u0022:120000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:120000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:2},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022d868f153-e8f4-77ab-c9c6-b3db13f1fa8b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:4},\u0022Type\u0022:3,\u0022OccurredAt\u0022:130000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:130000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022A\u0022,\u0022LogId\u0022:\u0022SYN-A-B/A\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:3},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022468cfeca-f11f-98a9-e25a-d1c05cf9150f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:1},\u0022Type\u0022:0,\u0022OccurredAt\u0022:100000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:160000},\u0022Attempt\u0022:1}]},{\u0022Id\u0022:\u0022peer\u0022,\u0022Producer\u0022:\u0022B\u0022,\u0022Kind\u0022:0,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022\\u002BnsCHez/ym9DiIDyxA8aHU/RUjCKjBVvfeP6vFQLc7o=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022Xdvp73bk2q7vQwzuTDdovtNAksMGZ07423c6lg5shIUpVSb5nQG5XzNvXMJoaJJdmPR\\u002BjaWjkbFi5qOjgp0VmA==\\u0022,\\u0022ChallengeDigest\\u0022:null}\u0022,\u0022LocalRecords\u0022:[]},{\u0022Id\u0022:\u0022peer/snapshot\u0022,\u0022Producer\u0022:\u0022B\u0022,\u0022Kind\u0022:1,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:170000},\u0022Json\u0022:\u0022{\\u0022GatewayId\\u0022:\\u0022B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022EpochId\\u0022:1,\\u0022Entries\\u0022:[{\\u0022LeafIdx\\u0022:0,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022SeqNum\\u0022:1,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:1,\\u0022PayloadHash\\u0022:\\u00220zoorInLfgNYjQNQwc5HJ7kp0Xv42C1VMGTNPmHTabE=\\u0022,\\u0022Timestamp\\u0022:1800000100,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022KRwkNozS16spUddFefyu83IX7vsCv7dOxvZmWPF3NuD4MOaG3DC7CkONtP9VlnWjDxICApLwQ\\u002BPzAXqu1t0NiA==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:1,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022SeqNum\\u0022:2,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:2,\\u0022PayloadHash\\u0022:\\u0022XUty6\\u002BQP1YVUKWEtvGxWXRErtPVPmcCtCTWcKAsgNIk=\\u0022,\\u0022Timestamp\\u0022:1800000110,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022pwP/7vkGFjV9dvx2a0lbmjOALHKjug/YG4cWWb9KCHE0TjSFnA\\u002ByLlz8Lt\\u002BFznXejFi/o114I7k/DD4IWJDUzA==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:2,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022SeqNum\\u0022:3,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:3,\\u0022PayloadHash\\u0022:\\u0022XrBOXmrFdNaHqNoWITosNRnyfidC8XmmSk/fhdK2Xrk=\\u0022,\\u0022Timestamp\\u0022:1800000120,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022IAYMSBo6o5MQsUF69jd\\u002BVb9cwAv6dq1mwtSlFWSyicCq\\u002BISKetl8rs7xcChIHxX41baS3XaQfwH7sQcc9b/SQQ==\\u0022,\\u0022EpochId\\u0022:1},{\\u0022LeafIdx\\u0022:3,\\u0022CorridorId\\u0022:\\u0022SYN-A-B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022SeqNum\\u0022:4,\\u0022TxId\\u0022:\\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\\u0022,\\u0022Type\\u0022:4,\\u0022PayloadHash\\u0022:\\u0022KxpPpgcxtOPcT2o063mfg9jMcBdmM9oJvmJiim4IhU8=\\u0022,\\u0022Timestamp\\u0022:1800000130,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022N49rCsi7tukJxZ4N\\u002ByniDhXvegon6MBfiToSApVijEy3hL0Szf5PaBDdYz5pX4WmbEL5ug2ffcFXPB59cLxJDA==\\u0022,\\u0022EpochId\\u0022:1}],\\u0022Checkpoint\\u0022:{\\u0022GatewayId\\u0022:\\u0022B\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/B\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022RootHash\\u0022:\\u0022\\u002BnsCHez/ym9DiIDyxA8aHU/RUjCKjBVvfeP6vFQLc7o=\\u0022,\\u0022Timestamp\\u0022:1800000170,\\u0022SignerId\\u0022:\\u0022B\\u0022,\\u0022Signature\\u0022:\\u0022Xdvp73bk2q7vQwzuTDdovtNAksMGZ07423c6lg5shIUpVSb5nQG5XzNvXMJoaJJdmPR\\u002BjaWjkbFi5qOjgp0VmA==\\u0022,\\u0022ChallengeDigest\\u0022:null}}\u0022,\u0022LocalRecords\u0022:[{\u0022Gateway\u0022:\u0022B\u0022,\u0022LogId\u0022:\u0022SYN-A-B/B\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:0},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022468cfeca-f11f-98a9-e25a-d1c05cf9150f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:1},\u0022Type\u0022:0,\u0022OccurredAt\u0022:100000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:100000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022B\u0022,\u0022LogId\u0022:\u0022SYN-A-B/B\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:1},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00229979565c-b9f8-8e43-e6bf-57d908df1b4f\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:2},\u0022Type\u0022:1,\u0022OccurredAt\u0022:110000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:110000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022B\u0022,\u0022LogId\u0022:\u0022SYN-A-B/B\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:2},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u00222e3d4886-5a89-775d-2fb2-b65047fb163b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:3},\u0022Type\u0022:2,\u0022OccurredAt\u0022:120000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:120000},\u0022Attempt\u0022:0},{\u0022Gateway\u0022:\u0022B\u0022,\u0022LogId\u0022:\u0022SYN-A-B/B\u0022,\u0022LeafIndex\u0022:{\u0022Value\u0022:3},\u0022Event\u0022:{\u0022TransactionId\u0022:{\u0022Value\u0022:\u0022940c9696-eb7e-21e4-ca27-4dfb47cb0ffa\u0022},\u0022EventId\u0022:{\u0022Value\u0022:\u0022d868f153-e8f4-77ab-c9c6-b3db13f1fa8b\u0022},\u0022Corridor\u0022:\u0022SYN-A-B\u0022,\u0022Sequence\u0022:{\u0022Value\u0022:4},\u0022Type\u0022:3,\u0022OccurredAt\u0022:130000,\u0022AmountMinorUnits\u0022:88894,\u0022Currency\u0022:\u0022XTS\u0022,\u0022Debtor\u0022:\u0022SYNTHETIC-DEBTOR\u0022,\u0022Creditor\u0022:\u0022SYNTHETIC-CREDITOR\u0022},\u0022LoggedAt\u0022:{\u0022Milliseconds\u0022:130000},\u0022Attempt\u0022:0}]},{\u0022Id\u0022:\u0022witness\u0022,\u0022Producer\u0022:\u0022W\u0022,\u0022Kind\u0022:5,\u0022AvailableAt\u0022:{\u0022Milliseconds\u0022:180000},\u0022Json\u0022:\u0022{\\u0022WitnessId\\u0022:\\u0022W\\u0022,\\u0022GatewayId\\u0022:\\u0022A\\u0022,\\u0022LogId\\u0022:\\u0022SYN-A-B/A\\u0022,\\u0022EpochId\\u0022:1,\\u0022TreeSize\\u0022:4,\\u0022CheckpointRootHash\\u0022:\\u0022Z7iHlIn9fE2\\u002BsrClog/lEvrJJ16sl2R\\u002Bt8\\u002BOfjOZZkk=\\u0022,\\u0022CheckpointSignatureHash\\u0022:\\u00225T97/LMyuVMXnpxxgw/QlGL\\u002BQjru6koVt9WFwjyeoqo=\\u0022,\\u0022WitnessObservedTime\\u0022:1800000180,\\u0022Signature\\u0022:\\u0022V6NtLIZvC7/Ca8bAO5uZ3R01Zhh0HBH5Slw74f7nJK8qtRYLydBwF1TTlzmXSBZl1XySJi/keU8w\\u002B2tXHmC4Rw==\\u0022,\\u0022CheckpointDigest\\u0022:\\u0022dzTtCX/GbUmiLVbt5HRT4mAGtqFE7TfOxdleStWg8f8=\\u0022}\u0022,\u0022LocalRecords\u0022:[]}],\u0022Signers\u0022:[{\u0022Id\u0022:\u0022A\u0022,\u0022PublicKey\u0022:\u0022MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/l3bTMbSZQJLZIFZl9L6Da\\u002BtKyUPquoMSkbO5w\\u002BddA1Q71w8SXE7zIJsQg/8dEb/Ap/2EilObCr\\u002B\\u002BmGWJlL84w==\u0022,\u0022Role\u0022:1,\u0022Gateways\u0022:[\u0022A\u0022],\u0022Logs\u0022:[\u0022SYN-A-B/A\u0022],\u0022Corridors\u0022:[\u0022SYN-A-B\u0022]},{\u0022Id\u0022:\u0022B\u0022,\u0022PublicKey\u0022:\u0022MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERJ861KoIw4mylN1bmAvHUla8GKaw\\u002BLEb4NxiigHWuhZfzGzRIZhjnVeKd1EbYrdfWHw4eyilZHmtBLB8qP1EOg==\u0022,\u0022Role\u0022:1,\u0022Gateways\u0022:[\u0022B\u0022],\u0022Logs\u0022:[\u0022SYN-A-B/A\u0022,\u0022SYN-A-B/B\u0022],\u0022Corridors\u0022:[\u0022SYN-A-B\u0022]},{\u0022Id\u0022:\u0022W\u0022,\u0022PublicKey\u0022:\u0022MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEbkzu5wvG\\u002BDgtknHEHVvLa2bSnL7iu7g\\u002BuG48MUsWKHr81kydkL/IXK3bNzmC3XO8LcZvD9NJhxBTXrb9szhfMw==\u0022,\u0022Role\u0022:2,\u0022Gateways\u0022:[\u0022A\u0022,\u0022B\u0022],\u0022Logs\u0022:[\u0022SYN-A-B/A\u0022,\u0022SYN-A-B/B\u0022],\u0022Corridors\u0022:[\u0022SYN-A-B\u0022]},{\u0022Id\u0022:\u0022AUDITOR\u0022,\u0022PublicKey\u0022:\u0022MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtWIKoTiYIc5jHk1Wf5spR75SDK9oBnKuC1m6hS2IFmCkAsiBTYhX3fipG0Vpxbbl8dt2yqAXEn3QTfpwfDBzRg==\u0022,\u0022Role\u0022:3,\u0022Gateways\u0022:[\u0022A\u0022,\u0022B\u0022],\u0022Logs\u0022:[\u0022SYN-A-B/A\u0022,\u0022SYN-A-B/B\u0022],\u0022Corridors\u0022:[\u0022SYN-A-B\u0022]}]}",
+  "DeliveredBodyOverrides": {}
+}

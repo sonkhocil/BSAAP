@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": "BSAAP-EXPERIMENT/1",
+  "GeneratorVersion": "sha256-counter-v1",
+  "SourceCommitSha": "9766cb0486058da5b4822d846c38730d4963c7de",
+  "FrozenGate2CommitSha": "ac1b997f3732483ae8d6df60774458111703f0eb",
+  "Seed": 2027,
+  "Scenario": "synthetic-preparation-example",
+  "Runtime": {
+    "Framework": ".NET 9.0.23",
+    "OperatingSystem": "Debian GNU/Linux 13 (trixie)",
+    "Architecture": "X64"
+  },
+  "Configuration": {
+    "Seed": 2027,
+    "Scenario": "synthetic-preparation-example",
+    "TransactionCount": 4,
+    "Corridors": [
+      "SYN-A-B",
+      "SYN-C-D"
+    ],
+    "StartTime": 100,
+    "TransactionSpacing": 40,
+    "EventSpacing": 10,
+    "Faults": [
+      {
+        "Kind": 0,
+        "EventOrdinal": 0,
+        "Corridor": null,
+        "Start": 0,
+        "End": 0,
+        "Delay": 0,
+        "ExtraCopies": 1
+      }
+    ]
+  },
+  "ConfigurationSha256": "865dc8bf6ad13c6bdc6d84f7d3e8d908c87199af37a1894da20a9b289027719a"
+}
