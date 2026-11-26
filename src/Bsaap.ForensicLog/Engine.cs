@@ -372,7 +372,7 @@ namespace Bsaap.ForensicLog.Engine
         }
 
         private static AuditVerdict VerifyFreshness(SignedAuditChallenge? challenge, SignedTreeHead head,
-            WitnessAttestation witness, SignedLoggingObligation obligation, ITrustedKeyRegistry keys, long now)
+            WitnessAttestation witness, SignedLoggingObligation obligation, ITrustedKeyRegistry keys)
         {
             if (challenge is null || head.ChallengeDigest is null)
                 return AuditVerdict.UnprovenWithinWindow;
@@ -386,8 +386,9 @@ namespace Bsaap.ForensicLog.Engine
                 !EvidenceFields.Equal(challenge.GetChallengeDigest(), head.ChallengeDigest))
                 return AuditVerdict.InvalidAuditChallenge;
 
+            // Expiry bounds evidence collection. Archived evidence retains its validity.
             if (challenge.IssuedAt <= obligation.PublicationDeadline || head.Timestamp < challenge.IssuedAt ||
-                witness.WitnessObservedTime > challenge.ExpiresAt || now > challenge.ExpiresAt)
+                witness.WitnessObservedTime > challenge.ExpiresAt)
                 return AuditVerdict.UnprovenWithinWindow;
             return AuditVerdict.Compliant;
         }
@@ -444,7 +445,7 @@ namespace Bsaap.ForensicLog.Engine
             if (observation != AuditVerdict.Compliant)
                 return observation;
 
-            var freshness = VerifyFreshness(challenge, head, witnessAttestation, obligation, keyRegistry, currentTimeSec);
+            var freshness = VerifyFreshness(challenge, head, witnessAttestation, obligation, keyRegistry);
             if (freshness != AuditVerdict.Compliant)
                 return freshness;
 

@@ -1,0 +1,42 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Debug/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.ForensicLog.Tests -> /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll
+Test run for /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.2 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.30]     Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: False, observedAt: 975) [FAIL]
+[xUnit.net 00:00:00.35]     Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: True, observedAt: 975) [FAIL]
+[xUnit.net 00:00:00.35]     Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: True, observedAt: 1050) [FAIL]
+  Failed Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: False, observedAt: 975) [29 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: ProvenLoggingPolicyViolation
+Actual:   UnprovenWithinWindow
+  Stack Trace:
+     at Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(Boolean hasEntry, Int64 observedAt) in /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/ForensicAuditEngineTests.cs:line 164
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+  Failed Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: True, observedAt: 975) [4 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Compliant
+Actual:   UnprovenWithinWindow
+  Stack Trace:
+     at Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(Boolean hasEntry, Int64 observedAt) in /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/ForensicAuditEngineTests.cs:line 164
+   at InvokeStub_ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Failed Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(hasEntry: True, observedAt: 1050) [1 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Compliant
+Actual:   UnprovenWithinWindow
+  Stack Trace:
+     at Bsaap.ForensicLog.Tests.ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(Boolean hasEntry, Int64 observedAt) in /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/ForensicAuditEngineTests.cs:line 164
+   at InvokeStub_ForensicAuditEngineTests.ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration: 72 ms - Bsaap.ForensicLog.Tests.dll (net9.0)
+VSTEST_ARTIFACTS_DIRECTORY environment variable was not found, falling back to a user-private temporary directory. This is most likely caused by an outdated Microsoft.NET.Test.Sdk package reference in the test project.

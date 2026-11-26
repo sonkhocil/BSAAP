@@ -141,7 +141,6 @@ public sealed class ForensicAuditEngineTests : IDisposable
 
     [Theory]
     [InlineData(900, 1050, 950)]
-    [InlineData(925, 999, 950)]
     [InlineData(925, 1050, 924)]
     public void RejectsCheckpointOutsideChallengeWindow(long issued, long expiry, long checkpoint)
     {
@@ -149,6 +148,50 @@ public sealed class ForensicAuditEngineTests : IDisposable
         var challenge = Challenge(obligation, issued, expiry);
         var snapshot = Snapshot(challenge) with { Checkpoint = Head(0, EmptyRoot, challenge, checkpoint) };
         Assert.Equal(AuditVerdict.UnprovenWithinWindow, Audit(obligation, snapshot, challenge));
+    }
+
+    [Theory]
+    [InlineData(false, 975)]
+    [InlineData(true, 975)]
+    [InlineData(true, 1050)]
+    public void ValidArchivedEvidenceCanBeVerifiedAfterChallengeExpiry(bool hasEntry, long observedAt)
+    {
+        var obligation = Obligation();
+        var challenge = Challenge(obligation);
+        var snapshot = hasEntry ? Snapshot(challenge, Entry()) : Snapshot(challenge);
+        var verdict = ForensicAuditEngine.AuditLogSnapshot(obligation,
+            Observe(snapshot.Checkpoint, observedAt), snapshot, [], _keys, 10_000, Gateway, Log, challenge);
+        Assert.Equal(hasEntry ? AuditVerdict.Compliant : AuditVerdict.ProvenLoggingPolicyViolation, verdict);
+    }
+
+    [Theory]
+    [InlineData(950, 1051)]
+    [InlineData(924, 975)]
+    public void ArchivedEvidenceOutsideCollectionWindowRemainsUnproven(long checkpointAt, long observedAt)
+    {
+        var obligation = Obligation();
+        var challenge = Challenge(obligation);
+        var snapshot = Snapshot(challenge) with { Checkpoint = Head(0, EmptyRoot, challenge, checkpointAt) };
+        Assert.Equal(AuditVerdict.UnprovenWithinWindow,
+            ForensicAuditEngine.AuditLogSnapshot(obligation, Observe(snapshot.Checkpoint, observedAt),
+                snapshot, [], _keys, 10_000, Gateway, Log, challenge));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void ArchivedEvidenceStillRejectsForgedOrMismatchedChallenge(bool mismatched)
+    {
+        var obligation = Obligation();
+        var challenge = Challenge(obligation);
+        var snapshot = Snapshot(challenge);
+        var supplied = mismatched ? Challenge(obligation) :
+            challenge with { Signature = Sign(_peer, challenge.GetCanonicalBytes()) };
+        if (!mismatched)
+            snapshot = Snapshot(supplied);
+        Assert.Equal(AuditVerdict.InvalidAuditChallenge,
+            ForensicAuditEngine.AuditLogSnapshot(obligation, Observe(snapshot.Checkpoint),
+                snapshot, [], _keys, 10_000, Gateway, Log, supplied));
     }
 
     [Fact]

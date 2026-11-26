@@ -8,5 +8,5 @@ VSTest version 17.14.2 (x64)
 Starting test execution, please wait...
 A total of 1 test files matched the specified pattern.
 
-Passed!  - Failed:     0, Passed:    36, Skipped:     0, Total:    36, Duration: 287 ms - Bsaap.ForensicLog.Tests.dll (net9.0)
+Passed!  - Failed:     0, Passed:    42, Skipped:     0, Total:    42, Duration: 294 ms - Bsaap.ForensicLog.Tests.dll (net9.0)
 VSTEST_ARTIFACTS_DIRECTORY environment variable was not found, falling back to a user-private temporary directory. This is most likely caused by an outdated Microsoft.NET.Test.Sdk package reference in the test project.
