@@ -1,0 +1,6 @@
+MSBUILD : error MSB1001: Unknown switch.
+    Full command line: '/tmp/bsaap-dotnet/sdk/9.0.321/MSBuild.dll -maxcpucount -verbosity:m -tlp:default=auto -nologo -restore -nodereuse:false -target:VSTest -nologo -property:Configuration=Release --project tests/Bsaap.Simulation.Tests -property:VSTestArtifactsProcessingMode=collect -property:VSTestSessionCorrelationId=9209_753065e9-a1ef-460c-8ce2-7c58f8a3a139'
+  Switches appended by response files:
+Switch: --project
+
+For switch syntax, type "MSBuild -help"

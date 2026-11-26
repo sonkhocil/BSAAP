@@ -20,9 +20,15 @@ public sealed class EvidenceAcquisition
         ArgumentNullException.ThrowIfNull(plan);
         _archive = archive;
         _plan = plan;
-        _queries = run.Pristine.Select(e => new AuditQuery("omission/" + e.EventId.Value.ToString("D"),
+        if (plan.AuditedEventOrdinals is { } ordinals && (ordinals.IsDefaultOrEmpty ||
+            ordinals.Any(index => index < 0 || index >= run.Pristine.Length) ||
+            ordinals.Distinct().Count() != ordinals.Length))
+            throw new ArgumentException("Audit selection must contain unique existing public event ordinals.");
+        var publicEvents = plan.AuditedEventOrdinals is { } selected
+            ? selected.Select(index => run.Pristine[index]).ToImmutableArray() : run.Pristine;
+        _queries = publicEvents.Select(e => new AuditQuery("omission/" + e.EventId.Value.ToString("D"),
             ClaimKind.OmissionPolicyViolation, e.EventId, e.TransactionId, "A", e.Corridor + "/A",
-            e.Corridor, e.Sequence, e.Type, Convert.ToHexString(ProtocolArchive.PayloadHash(e)))).Concat(run.Pristine.Select(e => e.Corridor).Distinct(StringComparer.Ordinal)
+            e.Corridor, e.Sequence, e.Type, Convert.ToHexString(ProtocolArchive.PayloadHash(e)))).Concat(publicEvents.Select(e => e.Corridor).Distinct(StringComparer.Ordinal)
                 .Select(c => new AuditQuery("equivocation/" + c + "/A/1", ClaimKind.SignedLogEquivocation,
                     null, null, "A", c + "/A", c, null))).ToImmutableArray();
         Deliveries = Collect(archive, plan);
@@ -71,6 +77,16 @@ public sealed class EvidenceAcquisition
                 throw new ArgumentException("Exchange supports collected checkpoints from named observers.");
 
             long sent = Math.Max(request.SentAt.Milliseconds, artifact.AvailableAt.Milliseconds);
+            if (request.Channel == CollectionChannel.WitnessCheckpointRetrieval)
+            {
+                if (artifact.Kind != ArtifactKind.Checkpoint)
+                    throw new ArgumentException("Witness retrieval forwards gateway-signed checkpoints only.");
+                var retention = archive.Retentions.Where(r => r.WitnessId == request.Target && r.ArtifactId == artifact.Id &&
+                    Math.Max(sent, r.AvailableAt.Milliseconds) < r.RetainedUntil.Milliseconds)
+                    .OrderBy(r => r.AvailableAt.Milliseconds).FirstOrDefault();
+                if (retention is null) continue;
+                sent = Math.Max(sent, retention.AvailableAt.Milliseconds);
+            }
             long received = checked(sent + disclosure.DeliveryDelayMilliseconds);
             candidates.Add((observer, request, artifact, new(sent), new(received), ordinal++));
         }
@@ -92,6 +108,12 @@ public sealed class EvidenceAcquisition
                 candidate.SentAt, candidate.ReceivedAt, receipt));
         }
         return deliveries.ToImmutable();
+    }
+
+    public int DeliveredArtifactCount(string observer)
+    {
+        _ = Observer(observer);
+        return Deliveries.Count(delivery => delivery.Observer == observer);
     }
 
     private ObserverPlan Observer(string observer) => _plan.Observers.Single(o => o.Observer == observer);
@@ -134,6 +156,11 @@ public sealed class EvidenceAcquisition
 
     public B1WitnessEvidence ProjectB1Witness(string observer) =>
         new(ProjectB1(observer), Acquired<WitnessAttestation>(observer, ArtifactKind.Witness));
+    public B1ReceiptEvidence ProjectB1Receipt(string observer) =>
+        new(ProjectB1(observer),
+            Acquired<SignedLoggingObligation>(observer, ArtifactKind.Obligation),
+            Acquired<SignedLoggingObligation>(observer, ArtifactKind.TargetAck));
+
     public B2Evidence ProjectB2(string observer) =>
         new(ProjectB1Witness(observer),
             Acquired<SignedLoggingObligation>(observer, ArtifactKind.Obligation),

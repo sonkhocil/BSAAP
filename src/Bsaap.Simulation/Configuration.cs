@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 
 namespace Bsaap.Simulation;
 
@@ -8,7 +9,8 @@ public enum FaultKind { Omission, Equivocation, Duplicate, Delay, Retry, Crash, 
 // Windows are [Start, End) in logical milliseconds and target corridor gateway A.
 public sealed record FaultRule(
     FaultKind Kind, int? EventOrdinal = null, string? Corridor = null,
-    long Start = 0, long End = 0, long Delay = 0, int ExtraCopies = 1);
+    long Start = 0, long End = 0, long Delay = 0, int ExtraCopies = 1,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? InternalView = null);
 
 public sealed record SimulationConfiguration(
     ulong Seed, string Scenario, int TransactionCount, ImmutableArray<string> Corridors,
@@ -29,7 +31,9 @@ public sealed record SimulationConfiguration(
         foreach (var rule in Faults)
         {
             if (rule is null || !Enum.IsDefined(rule.Kind) ||
-                (rule.Corridor is not null && !Corridors.Contains(rule.Corridor, StringComparer.Ordinal)))
+                (rule.Corridor is not null && !Corridors.Contains(rule.Corridor, StringComparer.Ordinal)) ||
+                (rule.InternalView is not null && rule.InternalView is not ("primary" or "alternate")) ||
+                (rule.Kind == FaultKind.Equivocation && rule.InternalView == "primary"))
                 throw new ArgumentException("Invalid fault scope.");
             if (rule.Kind is FaultKind.Crash or FaultKind.Partition)
             {

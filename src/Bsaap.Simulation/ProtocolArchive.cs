@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bsaap.ForensicLog.Contracts;
 using Bsaap.ForensicLog.Engine;
 using Bsaap.Simulation.Contracts;
@@ -12,7 +13,9 @@ internal sealed record PublicSigner(
     string Id, string PublicKey, SignerRole Role,
     ImmutableArray<string> Gateways, ImmutableArray<string> Logs, ImmutableArray<string> Corridors);
 internal sealed record ArchiveData(
-    ImmutableArray<PublishedArtifact> Artifacts, ImmutableArray<PublicSigner> Signers);
+    ImmutableArray<PublishedArtifact> Artifacts, ImmutableArray<PublicSigner> Signers,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    ImmutableArray<RetainedCheckpoint> Retentions = default);
 
 // Owner-side archive supports exact replay of randomized real signatures and nonces.
 // Only public keys are retained. Acquisition never exposes the whole archive.
@@ -20,8 +23,10 @@ public sealed class ProtocolArchive
 {
     internal ImmutableArray<PublishedArtifact> Artifacts { get; }
     private readonly ImmutableArray<PublicSigner> _signers;
+    internal ImmutableArray<RetainedCheckpoint> Retentions { get; }
 
-    internal ProtocolArchive(ImmutableArray<PublishedArtifact> artifacts, ImmutableArray<PublicSigner> signers)
+    internal ProtocolArchive(ImmutableArray<PublishedArtifact> artifacts, ImmutableArray<PublicSigner> signers,
+        ImmutableArray<RetainedCheckpoint> retentions = default)
     {
         if (artifacts.IsDefault || signers.IsDefault || artifacts.Any(a => a is null ||
             string.IsNullOrWhiteSpace(a.Id) || a.AvailableAt.Milliseconds < 0) ||
@@ -29,14 +34,15 @@ public sealed class ProtocolArchive
             throw new ArgumentException("Invalid protocol archive.");
         Artifacts = artifacts;
         _signers = signers;
+        Retentions = retentions.IsDefaultOrEmpty ? [] : retentions;
     }
 
-    public string Serialize() => JsonSerializer.Serialize(new ArchiveData(Artifacts, _signers));
+    public string Serialize() => JsonSerializer.Serialize(new ArchiveData(Artifacts, _signers, Retentions.IsEmpty ? default : Retentions));
     public static ProtocolArchive Restore(string json)
     {
         var data = JsonSerializer.Deserialize<ArchiveData>(json)
             ?? throw new ArgumentException("Missing protocol archive.");
-        return new(data.Artifacts, data.Signers);
+        return new(data.Artifacts, data.Signers, data.Retentions);
     }
 
     public ImmutableArray<TrustedPublicSigner> ExportTrustedPublicKeys() =>
@@ -53,7 +59,20 @@ public sealed class ProtocolArchive
     }
 
     internal ProtocolArchive ReplaceArtifact(string id, string json) =>
-        new(Artifacts.Select(a => a.Id == id ? a with { Json = json } : a).ToImmutableArray(), _signers);
+        new(Artifacts.Select(a => a.Id == id ? a with { Json = json } : a).ToImmutableArray(), _signers, Retentions);
+
+    public ProtocolArchive WithDeliveredBodies(ImmutableDictionary<string, string> bodies)
+    {
+        ArgumentNullException.ThrowIfNull(bodies);
+        var delivered = this;
+        foreach (var body in bodies)
+        {
+            if (!Artifacts.Any(artifact => artifact.Id == body.Key))
+                throw new ArgumentException("Unknown delivered artifact ID.");
+            delivered = delivered.ReplaceArtifact(body.Key, body.Value);
+        }
+        return delivered;
+    }
 
     public static ProtocolArchive Create(SimulationRun run, ProtocolSchedule schedule)
     {
@@ -75,6 +94,7 @@ public sealed class ProtocolArchive
             Registration("W", witness, SignerRole.Witness, ["A", "B"], logs, corridors),
             Registration("AUDITOR", auditor, SignerRole.Auditor, ["A", "B"], logs, corridors));
         var artifacts = ImmutableArray.CreateBuilder<PublishedArtifact>();
+        var retentions = ImmutableArray.CreateBuilder<RetainedCheckpoint>();
         var obligations = new Dictionary<string, SignedLoggingObligation>(StringComparer.Ordinal);
         var accepted = new Dictionary<string, (SignedLoggingObligation Obligation, LogicalInstant At)>(StringComparer.Ordinal);
         var challenges = new Dictionary<string, SignedAuditChallenge>(StringComparer.Ordinal);
@@ -190,8 +210,18 @@ public sealed class ProtocolArchive
                 [], head.GetCheckpointDigest());
             attestation = attestation with { Signature = Sign(witness, attestation.GetCanonicalBytes()) };
             Add(artifacts, publication.Id, "W", ArtifactKind.Witness, publication.AvailableAt, attestation);
+            if (publication.RetainCheckpoint)
+            {
+                var available = publication.CheckpointAvailableAt ?? publication.ObservedAt;
+                if (publication.RetainedUntil is not { } until || available.Milliseconds < publication.ObservedAt.Milliseconds ||
+                    until.Milliseconds <= available.Milliseconds)
+                    throw new ArgumentException("Checkpoint retention needs an explicit valid interval.");
+                retentions.Add(new(publication.CheckpointId, "W", publication.ObservedAt, available, until));
+            }
+            else if (publication.RetainedUntil is not null || publication.CheckpointAvailableAt is not null)
+                throw new ArgumentException("Checkpoint forwarding requires explicit retention.");
         }
-        return new(artifacts.ToImmutable(), signers);
+        return new(artifacts.ToImmutable(), signers, retentions.ToImmutable());
     }
 
     private static PublicSigner Registration(string id, ECDsa key, SignerRole role,

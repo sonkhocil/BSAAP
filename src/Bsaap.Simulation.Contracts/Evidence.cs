@@ -67,7 +67,7 @@ public sealed record AuditQuery(
     string Gateway, string LogId, string Corridor, CorridorSequence? Sequence,
     SyntheticEventType? EventType = null, string? PayloadSha256 = null, ulong EpochId = 1);
 
-public enum BaselineId { B0, B1, B1W, B2 }
+public enum BaselineId { B0, B1, B1W, B2, B1R }
 public enum AssessmentOutcome { NoFinding, Accusation, Inconclusive, InvalidEvidence }
 public sealed record Prediction(string QueryId, AssessmentOutcome Outcome, string? Reason = null,
     Bsaap.ForensicLog.Contracts.AuditVerdict? VerificationVerdict = null);
@@ -89,6 +89,11 @@ public sealed record B1Evidence(
 public sealed record B1WitnessEvidence(
     B1Evidence Bilateral,
     ImmutableArray<Acquired<Bsaap.ForensicLog.Contracts.WitnessAttestation>> Witnesses);
+public sealed record B1ReceiptEvidence(
+    B1Evidence Authenticated,
+    ImmutableArray<Acquired<Bsaap.ForensicLog.Contracts.SignedLoggingObligation>> Obligations,
+    ImmutableArray<Acquired<Bsaap.ForensicLog.Contracts.SignedLoggingObligation>> TargetAcks);
+
 public sealed record B2Evidence(
     B1WitnessEvidence Witnessed,
     ImmutableArray<Acquired<Bsaap.ForensicLog.Contracts.SignedLoggingObligation>> Obligations,
@@ -110,4 +115,9 @@ public interface IB1WitnessBaseline
 public interface IB2Baseline
 {
     ImmutableArray<Prediction> Classify(B2Evidence evidence);
+}
+
+public interface IB1ReceiptBaseline
+{
+    ImmutableArray<Prediction> Classify(B1ReceiptEvidence evidence);
 }

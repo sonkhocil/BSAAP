@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  Restored /workspace/BSAAP/tools/Bsaap.ControlledPilot/Bsaap.ControlledPilot.csproj (in 117 ms).
+  Restored /workspace/BSAAP/tests/Bsaap.Simulation.Tests/Bsaap.Simulation.Tests.csproj (in 765 ms).
+  6 of 8 projects are up-to-date for restore.
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Debug/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.Simulation.Contracts -> /workspace/BSAAP/src/Bsaap.Simulation.Contracts/bin/Debug/net9.0/Bsaap.Simulation.Contracts.dll
+  Bsaap.ForensicLog.Tests -> /workspace/BSAAP/tests/Bsaap.ForensicLog.Tests/bin/Debug/net9.0/Bsaap.ForensicLog.Tests.dll
+  Bsaap.Baselines -> /workspace/BSAAP/src/Bsaap.Baselines/bin/Debug/net9.0/Bsaap.Baselines.dll
+  Bsaap.Simulation -> /workspace/BSAAP/src/Bsaap.Simulation/bin/Debug/net9.0/Bsaap.Simulation.dll
+  Bsaap.FunctionalComparison -> /workspace/BSAAP/tools/Bsaap.FunctionalComparison/bin/Debug/net9.0/Bsaap.FunctionalComparison.dll
+  Bsaap.ControlledPilot -> /workspace/BSAAP/tools/Bsaap.ControlledPilot/bin/Debug/net9.0/Bsaap.ControlledPilot.dll
+  Bsaap.Simulation.Tests -> /workspace/BSAAP/tests/Bsaap.Simulation.Tests/bin/Debug/net9.0/Bsaap.Simulation.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.74

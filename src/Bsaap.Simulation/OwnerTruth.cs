@@ -15,7 +15,8 @@ internal sealed record PhysicalEventTruth(
 }
 internal sealed record PolicyTruth(
     EventId EventId, string InternalView, bool AcceptedByDeadline,
-    LogicalInstant Deadline, bool PresentByDeadline, bool PresentAtHorizon, bool CorrectPayloadByDeadline)
+    LogicalInstant Deadline, bool PresentByDeadline, bool PresentAtHorizon, bool CorrectPayloadByDeadline,
+    string GatewayId, string LogId, ulong EpochId)
 {
     public bool DeadlineMiss => AcceptedByDeadline && !PresentByDeadline;
 }

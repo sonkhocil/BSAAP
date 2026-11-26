@@ -32,6 +32,10 @@ public sealed class ExperimentOwner
                 acquisition.ProjectB1(observer).Context, truthHorizon), StringComparer.Ordinal);
     }
 
+    public static ExperimentOwner FromProduction(SimulationRun run, ProtocolSchedule schedule,
+        ProtocolArchive trustedProduction, EvidenceAcquisition acquired, LogicalInstant truthHorizon) =>
+        new(run, schedule, trustedProduction, acquired, truthHorizon);
+
     public static ExperimentOwner Create(SimulationConfiguration configuration, ProtocolSchedule schedule,
         AcquisitionPlan plan, LogicalInstant truthHorizon)
     {
@@ -60,24 +64,27 @@ public sealed class ExperimentOwner
     public ExperimentOwner WithDeliveredArtifactBodies(ImmutableDictionary<string, string> bodies)
     {
         ArgumentNullException.ThrowIfNull(bodies);
-        var delivered = _productionArchive;
-        foreach (var body in bodies)
-        {
-            if (!delivered.Artifacts.Any(a => a.Id == body.Key))
-                throw new ArgumentException("Unknown delivered artifact ID.");
-            delivered = delivered.ReplaceArtifact(body.Key, body.Value);
-        }
+        var delivered = _productionArchive.WithDeliveredBodies(bodies);
         var acquisition = new EvidenceAcquisition(_run, delivered, Acquisition.Plan);
         return new(_run, _schedule, _productionArchive, acquisition, _truthHorizon);
     }
 
     public ScoreReport Score(string observer, BaselineId baseline,
+        ImmutableArray<Prediction> predictions, LogicalInstant verificationTime) =>
+        Assess(observer, baseline, predictions, verificationTime).Score;
+
+    public OwnerAssessment Assess(string observer, BaselineId baseline,
         ImmutableArray<Prediction> predictions, LogicalInstant verificationTime)
     {
-        if (!Enum.IsDefined(baseline))
-            throw new ArgumentOutOfRangeException(nameof(baseline));
+        if (!Enum.IsDefined(baseline)) throw new ArgumentOutOfRangeException(nameof(baseline));
         var eligibility = OwnerEvaluation.Eligibility(observer, baseline, Acquisition,
             _productionArchive, _clock, verificationTime);
-        return OwnerEvaluation.Score(_truth[observer], eligibility, predictions);
+        var queries = Acquisition.ProjectB1(observer).Context.Targets.ToDictionary(q => q.QueryId);
+        var availability = new EvidenceAvailabilityCounts(
+            queries.Values.Count(q => q.Kind == ClaimKind.OmissionPolicyViolation),
+            queries.Values.Count(q => q.Kind == ClaimKind.SignedLogEquivocation),
+            eligibility.Count(e => e.AdmissibleEvidence && queries[e.QueryId].Kind == ClaimKind.OmissionPolicyViolation),
+            eligibility.Count(e => e.AdmissibleEvidence && queries[e.QueryId].Kind == ClaimKind.SignedLogEquivocation));
+        return new(OwnerEvaluation.Score(_truth[observer], eligibility, predictions), availability);
     }
 }

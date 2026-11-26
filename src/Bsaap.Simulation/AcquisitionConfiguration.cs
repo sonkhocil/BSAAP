@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Text.Json.Serialization;
 using Bsaap.Simulation.Contracts;
 
 namespace Bsaap.Simulation;
@@ -23,7 +24,10 @@ public sealed record CheckpointPublication(
     string Id, string Gateway, string Corridor, string InternalView,
     LogicalInstant CreatedAt, string? ChallengeId = null, LogicalInstant? ClaimedTimestamp = null);
 public sealed record WitnessPublication(
-    string Id, string CheckpointId, LogicalInstant ObservedAt, LogicalInstant AvailableAt);
+    string Id, string CheckpointId, LogicalInstant ObservedAt, LogicalInstant AvailableAt,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] bool RetainCheckpoint = false,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] LogicalInstant? RetainedUntil = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] LogicalInstant? CheckpointAvailableAt = null);
 public sealed record ProtocolSchedule(
     UnixTimeMapping Clock,
     ImmutableArray<ObligationPublication> Obligations,
@@ -31,7 +35,7 @@ public sealed record ProtocolSchedule(
     ImmutableArray<CheckpointPublication> Checkpoints,
     ImmutableArray<WitnessPublication> Witnesses);
 
-public enum CollectionChannel { Direct, CheckpointExchange }
+public enum CollectionChannel { Direct, CheckpointExchange, WitnessCheckpointRetrieval }
 public sealed record CollectionBudget(int MaximumRequests, int MaximumArtifactsPerRequest);
 public sealed record CollectionRequest(
     string Id, string Target, CollectionChannel Channel,
@@ -44,7 +48,8 @@ public sealed record DisclosureRule(
     string Observer, string RequestId, string ArtifactId, long DeliveryDelayMilliseconds = 0);
 public sealed record AcquisitionPlan(
     CollectionBudget Budget, ImmutableArray<ObserverPlan> Observers,
-    ImmutableArray<DisclosureRule> Disclosure);
+    ImmutableArray<DisclosureRule> Disclosure,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] ImmutableArray<int>? AuditedEventOrdinals = null);
 
 internal enum ArtifactKind { Checkpoint, Snapshot, Obligation, TargetAck, Challenge, Witness }
 internal sealed record PublishedArtifact(
@@ -53,3 +58,7 @@ internal sealed record PublishedArtifact(
 internal sealed record ArtifactDelivery(
     string Observer, string RequestId, string ArtifactId,
     LogicalInstant SentAt, LogicalInstant ReceivedAt, int ReceiptNumber);
+
+internal sealed record RetainedCheckpoint(
+    string ArtifactId, string WitnessId, LogicalInstant ObservedAt,
+    LogicalInstant AvailableAt, LogicalInstant RetainedUntil);

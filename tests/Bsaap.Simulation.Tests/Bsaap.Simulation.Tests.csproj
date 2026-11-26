@@ -6,6 +6,7 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../../tools/Bsaap.ControlledPilot/Bsaap.ControlledPilot.csproj" />
     <ProjectReference Include="../../src/Bsaap.Baselines/Bsaap.Baselines.csproj" />
     <ProjectReference Include="../../src/Bsaap.Simulation/Bsaap.Simulation.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />

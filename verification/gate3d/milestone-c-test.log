@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Bsaap.ForensicLog -> /workspace/BSAAP/src/Bsaap.ForensicLog/bin/Release/net9.0/Bsaap.ForensicLog.dll
+  Bsaap.Simulation.Contracts -> /workspace/BSAAP/src/Bsaap.Simulation.Contracts/bin/Release/net9.0/Bsaap.Simulation.Contracts.dll
+  Bsaap.Simulation -> /workspace/BSAAP/src/Bsaap.Simulation/bin/Release/net9.0/Bsaap.Simulation.dll
+  Bsaap.Baselines -> /workspace/BSAAP/src/Bsaap.Baselines/bin/Release/net9.0/Bsaap.Baselines.dll
+  Bsaap.ControlledPilot -> /workspace/BSAAP/tools/Bsaap.ControlledPilot/bin/Release/net9.0/Bsaap.ControlledPilot.dll
+  Bsaap.Simulation.Tests -> /workspace/BSAAP/tests/Bsaap.Simulation.Tests/bin/Release/net9.0/Bsaap.Simulation.Tests.dll
+Test run for /workspace/BSAAP/tests/Bsaap.Simulation.Tests/bin/Release/net9.0/Bsaap.Simulation.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.2 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    18, Skipped:     0, Total:    18, Duration: 1 s - Bsaap.Simulation.Tests.dll (net9.0)
+VSTEST_ARTIFACTS_DIRECTORY environment variable was not found, falling back to a user-private temporary directory. This is most likely caused by an outdated Microsoft.NET.Test.Sdk package reference in the test project.

@@ -47,7 +47,7 @@ public sealed class B2Classifier : IB2Baseline
         var validObligations = new List<SignedLoggingObligation>();
         foreach (var obligation in obligations)
         {
-            if (!AuthenticateObligation(obligation, query))
+            if (!ReceiptValidation.Authenticate(obligation, query, keys))
                 invalid = true;
             else if (EvidenceValidation.PayloadMatches(obligation.PayloadHash, query))
                 validObligations.Add(obligation);
@@ -92,24 +92,6 @@ public sealed class B2Classifier : IB2Baseline
         if (invalid) return Invalid(query, "Supplied signed evidence failed authentication or binding.", lastVerdict);
         return new(query.QueryId, AssessmentOutcome.Inconclusive,
             "The acquired evidence does not establish a complete target-specific Gate 2 determination.", lastVerdict);
-    }
-
-    private bool AuthenticateObligation(SignedLoggingObligation obligation, AuditQuery query)
-    {
-        string issuer = obligation.IssuerGatewayId ?? obligation.IssuerSignerId;
-        string targetSigner = obligation.TargetAckSignerId ?? obligation.AuditedGatewayId;
-        if (obligation.Version != 2 || !EvidenceValidation.Id(issuer) ||
-            !EvidenceValidation.Id(obligation.IssuerSignerId) || !EvidenceValidation.Id(targetSigner) ||
-            !EvidenceValidation.Hash(obligation.PayloadHash) || !EvidenceValidation.Signature(obligation.IssuerSignature) ||
-            obligation.Timestamp < 0 || obligation.PublicationDeadline < obligation.Timestamp ||
-            !_trust.VerificationKeys.VerifySigner(obligation.IssuerSignerId, SignerRole.Gateway, issuer,
-                query.LogId, query.Corridor, obligation.GetCanonicalBytes(), obligation.IssuerSignature, out _))
-            return false;
-        // An absent ACK is insufficient evidence. A supplied invalid ACK is invalid evidence.
-        return obligation.TargetAckSignature is null ||
-            (EvidenceValidation.Signature(obligation.TargetAckSignature) &&
-             _trust.VerificationKeys.VerifySigner(targetSigner, SignerRole.Gateway, query.Gateway, query.LogId,
-                 query.Corridor, obligation.GetTargetAckCanonicalBytes(), obligation.TargetAckSignature, out _));
     }
 
     private bool AuthenticateChallenge(SignedAuditChallenge challenge, AuditQuery query) =>

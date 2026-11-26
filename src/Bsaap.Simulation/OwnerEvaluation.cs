@@ -19,10 +19,30 @@ internal static class OwnerEvaluation
             a.AvailableAt.Milliseconds <= Math.Min(horizon.Milliseconds, context.CollectionCutoff.Milliseconds))
             .Select(a => new SignedEvidence<SignedTreeHead>(a.Json).Read()).ToArray();
 
+        var committedViews = schedule.Checkpoints.Where(publication => publication.Gateway == "A" &&
+            publication.CreatedAt.Milliseconds <= context.CollectionCutoff.Milliseconds)
+            .Where(publication =>
+            {
+                var artifact = productionArchive.Artifacts.SingleOrDefault(a =>
+                    a.Id == publication.Id + "/snapshot" && a.Kind == ArtifactKind.Snapshot &&
+                    a.AvailableAt.Milliseconds <= context.CollectionCutoff.Milliseconds);
+                return artifact is not null && new SignedEvidence<LogSnapshot>(artifact.Json).TryRead(out var snapshot) &&
+                    ForensicAuditEngine.AuthenticateSnapshot(snapshot, keys, "A", publication.Corridor + "/A").IsValid;
+            })
+            .Select(publication => (Log: publication.Corridor + "/A", View: publication.InternalView)).ToHashSet();
+
+        // The operational primary journal is obligated even if its operator
+        // publishes no checkpoint. Signed alternative views add obligations;
+        // an unused internal clone does not create another policy target.
+        foreach (var original in run.Pristine)
+            committedViews.Add((original.Corridor + "/A", "primary"));
+
         return context.Targets.Select(query =>
         {
             bool omission = query.Kind == ClaimKind.OmissionPolicyViolation &&
-                policies.Any(policy => policy.EventId == query.EventId && policy.DeadlineMiss);
+                policies.Any(policy => policy.EventId == query.EventId && policy.GatewayId == query.Gateway &&
+                    policy.LogId == query.LogId && policy.EpochId == query.EpochId && policy.DeadlineMiss &&
+                    committedViews.Contains((query.LogId, policy.InternalView)));
             bool equivocation = query.Kind == ClaimKind.SignedLogEquivocation &&
                 ForensicAuditEngine.CheckEquivocation(heads.Where(head => head.GatewayId == query.Gateway &&
                     head.LogId == query.LogId && head.EpochId == query.EpochId).ToArray(), keys).IsEquivocation;
@@ -158,3 +178,8 @@ public sealed record DetectionScore(
         denominator == 0 ? null : (double)numerator / denominator;
 }
 public sealed record ScoreReport(DetectionScore Omission, DetectionScore Equivocation);
+
+
+public sealed record EvidenceAvailabilityCounts(
+    int OmissionQueries, int EquivocationQueries, int AdmissibleOmissionCases, int AdmissibleEquivocationCases);
+public sealed record OwnerAssessment(ScoreReport Score, EvidenceAvailabilityCounts Availability);
